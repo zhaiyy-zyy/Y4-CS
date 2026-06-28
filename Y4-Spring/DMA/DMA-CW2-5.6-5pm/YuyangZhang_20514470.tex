@@ -1,0 +1,270 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{subcaption}
+\begin{document}
+
+\title{House Price Prediction in King County Explained Through Stacking Ensemble and Ablation Interpretation}
+
+\author{
+\IEEEauthorblockN{Yuyang Zhang}
+\IEEEauthorblockA{
+School of Computer Science \\
+University of Nottingham Ningbo China \\
+Ningbo, China \\
+Student ID: 20514470\\
+scyyz26@nottingham.edu.cn
+}
+}
+
+\maketitle
+
+\begin{abstract}
+Predicting house prices is one of the main tasks in real estate research. However, house price data are characterized by non-linearity, spatial dependency, and heavy tails; moreover, no model has been found to perform better than others in all cases. One can use stacking ensembles to combine complementary algorithms. Still, the approach to predicting house prices is inconsistent in the literature, and most studies do not reveal the contribution of each base learner when building an ensemble. In this paper, an end-to-end pipeline is developed on the King County housing data (4,600 observations, 18 variables) to answer the following questions: does stacking yield better results compared to the best-performing individual model, and which base learners have the most influence on performance improvements? To begin with, six base learners are evaluated against the same preprocessing procedure: Ridge, Random Forest, Extra Trees, GBR, XGBoost, and Multi-Layer Perceptron (MLP). Then, three stacking schemes are built on the same base learners using out-of-fold predictions and either Ridge or LassoCV as the meta-model. The best stacking model yields R² = 0.7429, which is only marginally better than the best base model, XGBoost (R² = 0.7375). Leave-one-out ablation shows that Random Forest (+0.0030) and XGBoost (+0.0011) are mostly responsible for performance improvements; other base learners make no substantial contribution, and Ridge even harms ensemble performance. Therefore, increasing the number of base learners might not be the right way to improve ensemble performance since it is mostly determined by several strong learners and spatial features coded as the target variable mean.
+\end{abstract}
+
+\begin{IEEEkeywords}
+house price prediction, stacking ensemble, ablation study, target encoding, gradient boosting
+\end{IEEEkeywords}
+
+\section{Introduction}
+House prices are crucial concerns for buyers, sellers, lenders, and policymakers \cite{KOK2014136}, and they are notoriously difficult to model. Each property constitutes an almost unique combination of  structures, location, and condition,where the relationship between each factor and price is nonlinear and imbalanced across the market \cite{35659ca8-6be8-375a-94eb-6f497d2fc083}. Methods based on additive linear relationships like hedonic regression and other parametric models struggle to account for the interactions and give inconsistent prices when transaction numbers are sparse.  \cite{KOK2014136}.
+
+Machine learning techniques relax these assumptions and are now ubiquitous methods for property valuation. Nevertheless, none of these methods performs consistently across all datasets and markets. Ridge, linear models in general, are easy to interpret but incapable of modeling non-linearities\cite{limsombunchao2004house}.. On the other hand, tree-based ensembles perform well in modeling interactions but suffer from over-fitting and interpretability issues \cite{fan2006determinants,RICOJUAN2021114590} . Deep networks are highly flexible but architecture choices and tuning affect results\cite{10984370,JIT2774}. This problem motivates stacking, where a meta-model combines the outputs of several heterogeneous learners so as to keep the best of each one. Yet, stacking is not extensively used in real estate price prediction due to inconsistent advantages reported so far\cite{land13091436}. Most of the related literature uses single learners and simple combinations of learners such as bagging and boosting algorithms\cite{RICOJUAN2021114590}. The few studies that use stacking show some gains but treat the ensemble as a black-box approach with little discussion of what each of the base learners contributes to the prediction task\cite{Bjrgve2025ComparingHV} . Without this understanding, it is uncertain if the improvements generalize, or a simpler ensemble would work just as well.
+
+This study tried to fill the gap using the King County housing dataset (4,600 transactions, 18 features, May 2014 to May 2015). In particular, it combines  structural attributes (number of bedrooms, bathrooms, and square feet of living space), environmental characteristics (waterfront and view), and high cardinality location features (city and state/zip code), which allows various learners to take advantage of each piece of information differently. Contributions are:
+\begin{itemize}
+    \item A controlled comparison of six baseline regressors and three stacking strategies with identical preprocessing.
+    \item A leave-one-out experiment analyzing how important each base learner is to the stacked model through its contribution to the final prediction, aided by meta-learner coefficients.
+    \item  Identify that stacking produces the most value in Random Forest and XGBoost, and that target means of location features are dominant in feature importance. 
+\end{itemize}
+
+\section{Literature Review}
+Data-driven approaches to estimating the value of houses can be classified into three broad groups: parametric baselines, single-learner machine learning, and ensemble models. 
+
+For parametric baseline models, Hedonic regression models assume a linear relationship between the price and characteristics of a property  \cite{KOK2014136}. They are straightforward and cost-effective to apply, but due to their linear assumption, they are susceptible to non-linearity and spatial heterogeneity in the data \ \cite{SELIM20092843,limsombunchao2004house}.
+
+As machine learning gained traction in this area, a range of single-learner models has been applied to housing valuation. Tree-based learners — decision trees \textbackslash{}cite\{fan2006determinants\}, random forests \textbackslash{}cite\{10.1023/A:1010933404324\}, and gradient boosting \textbackslash{}cite\{hjort2022house,10.1214/aos/1013203451\} — are the most widely used, because they do not require feature scaling and capture feature interactions without explicit transformation of the target. Neural networks have outperformed linear baselines in some comparisons \textbackslash{}cite\{SELIM20092843\} but are prone to overfitting and offer limited interpretability \textbackslash{}cite\{limsombunchao2004house\}. Support vector regression with a non-linear kernel has also been applied, but is sensitive to the choice of CC C and the ϵ\textbackslash{}epsilon ϵ-insensitive loss \textbackslash{}cite\{CHERKASSKY2004113\}. The recurring conclusion across these studies is that any of these learners can be made to work well on a given dataset with careful tuning, but no single family is consistently best.
+
+This is the gap that ensemble methods are designed to close. Bagging and boosting reduce the variance of individual learners by aggregating many of them\cite{10.1023/A:1010933404324,hjort2022house}. Stacked generalisation goes further by training a meta-learner on the predictions of heterogeneous base models \cite{WOLPERT1992241}, and is in principle better placed than a single ensemble family to exploit complementary errors. In the housing-valuation literature, however, stacking remains relatively rare. The studies that do use it tend to focus on overall accuracy without controlled comparisons against individually tuned baselines \cite{land13091436,10937620}, and rarely decompose the ensemble to show which base learners actually contribute. Bjrgve et al. \cite{Bjrgve2025ComparingHV} note this explicitly, arguing that the practical case for stacking in housing valuation is still weak because gains are often modest and the underlying mechanism is opaque.
+
+
+\section{Methodology}
+The pipeline has six stages: exploratory analysis, cleaning, feature engineering, feature selection, baseline modelling, and stacking. Each stage is described below, with leakage-aware design choices flagged where they apply.
+
+\subsection{Exploratory Analysis}
+The dataset is loaded from \texttt{data.csv} and inspected for missing values, dtype consistency, and target skew. No imputation is needed. The price distribution is right-skewed with a long upper tail, so outlier handling is required before training error-sensitive metrics such as RMSE. Continuous predictors are visualised against price (regression plots), categorical predictors via boxplots, and pairwise relationships via a correlation heatmap.
+
+\subsection{Outlier Removal}
+Price observations beyond the 99th percentile are dropped (46 observations, 1.0\% of the data). Such a decision removes a few extremely valuable and luxury houses that would dominate model fitting and RMSE objective.
+
+\subsection{Feature Engineering}
+\texttt{date} column is used for \textit{house\_age}, \textit{is\_renovated}, and \textit{years\_since\_renovation} extraction, thus defining property age. \textit{basement\_ratio} captures the relative size of the basement in the house, whereas \textit{has\_basement} is a binary indicator; a small constant ensures no division by zero. \textit{bath\_bed\_ratio} contains information on the number of bathrooms and bedrooms. \textit{month} is converted to the number of season and then encoded via one-hot encoding.
+
+\subsection{Encoding and Train–Test Split}
+After the application of feature engineering techniques, raw identifiers (\textit{street}, \textit{city}, and \textit{statezip}) are dropped. Data split into training ($80\%$, 3,643 instances) and test ($20\%$, 911 instances) sets is done randomly but with a fixed random seed. To avoid the dimensional growth and at the same time preserve location information, categorical \textit{city} and \textit{statezip} columns are reintroduced through target encoding: categories become replaced by the average price of train set members, whereas unknown categories of the test set are assigned to the average price across all categories from the train set. Average prices are calculated using only training data to eliminate leakage. 
+
+\subsection{Feature Selection and Scaling}
+The feature selection step combines automatic and manual techniques. Features are selected automatically based on the criteria of correlation with price: $|r| > 0.05$. In addition, a manual set of domain-relevant features is saved regardless of their univariate correlation. Features with high mutual correlation, $|r|>0.85$, among other retained features are pruned. Two exceptions from this rule are \textit{sqft\_living}, \textit{bathrooms}, and the target-encoded location columns. As a result of this operation, only 14 features are left (dropped is \textit{basement\_ratio}). Remaining features are standardized based on training data only.
+
+\subsection{Baseline Models}
+Six baseline models belong to three groups: regularized linear, bagging, and boosting ensembles. Linear ridge regression acts as the representative of the first group. Bagging ensembles include Random Forest and Extra Trees. GBR and XGBoost stand for boosting ensemble techniques. Finally, the neural network regressor (MLP) provides non-linear representation capabilities. All models share the same scaled feature set and are evaluated with $R^{2}$, RMSE, and MAE.
+
+\subsection{Stacking Ensemble}
+Out-of-fold (OOF) predictions are generated for each base learner using 5-fold cross-validation: each fold's held-out predictions form the meta-features for that fold, and test predictions are averaged across folds. Three stacking configurations are then trained on these meta-features. Configuration (\textbf{V1} )  uses only the OOF predictions, utilizes a Ridge meta-learner. In the second configuration (\textbf{V2}) the meta-features are concatenated with the original, scaled features before feeding into the Ridge meta-learner. Lastly, the third configuration (\textbf{V3}) substitutes LassoCV for the meta-learner, thus introducing automatic regularization and feature selection.
+
+\subsection{Evaluation}
+All models are assessed using the held-out 20\% test split. To reach the second research goal, a leave-one-out ablation on the top performing stacking approach is performed, whereby the impact of each base learner on the test  $R^{2}$ is measured by removing one base learner at a time. Additionally, meta-learner coefficients for V1 and V3 are provided for two reasons. First, they show how the predictions from different base learners are combined and indicate any redundancy in the models through correlation of the coefficients. Second, for configurations what including Ridge meta-leanrer, V1 outperforms than V2(See details in Results). Random Forest feature importances and three diagnostic plots (predicted-versus-actual, residuals against predictions, residual histogram) are used to inspect bias and heteroscedasticity.
+
+\section{Experimental Results}
+The results will be presented in the same order as the pipeline above: observations from EDA, followed by an evaluation of all models, an ablation study, meta-learner coefficients, and diagnostics.
+
+\subsection{EDA and Feature Engineering Insights}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/output.png}
+\caption{Price distribution and outlier analysis. (a) Right-skewed original distribution. (b) Boxplot before outlier removal. (c) After dropping the top 1\% (46 rows), the bulk of the distribution is far more compact.}
+\label{fig:price_outlier}
+\end{figure}
+
+The price distribution is an indication of the necessity of dealing with outliers. The price distribution shown in Fig. ~\ref{fig:price_outlier}a is extremely skewed to the right, where most data points are clustered on the left side while a number of points are scattered far out to the right. This is presented graphically using a box plot in Fig. ~\ref{fig:price_outlier}b. The price distribution in Fig. ~\ref{fig:price_outlier}c is compressed after removing the top 1\% of the data points.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/eda_relationships.png}
+\caption{Key predictors against price. (a) Living area is positively correlated with price. (b) Waterfront properties command a clear premium. (c) Higher view ratings track higher prices monotonically.}
+\label{fig:eda_relationships}
+\end{figure}
+
+Fig.\ref{fig:eda_relationships} depicts the three main factors that guided our feature engineering efforts. Panel (a) shows a plot between \textit{sqft\_living} and price, showing that there is an increasing trend, as well as increasing variation for higher values of this feature, implying non-linear nature. Panel (b) shows that properties that have water fronts form a group with higher prices.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/feature_engineering.png}
+\caption{Engineered features against price. House age, renovation status, and season individually carry weak signal but contribute non-additively to ensemble models.}
+\label{fig:feature_engineering}
+\end{figure}
+
+These constructed features, as shown in Fig. \ref{fig:feature_engineering}, have very little predictive power by themselves. The correlation shown in Fig. \ref{fig:feature_engineering}a is a weak negative one between the age of the house and the price. Fig. \ref{fig:feature_engineering}b shows that there is only a slight difference between the prices of houses that have been renovated and those that have not been. Fig. \ref{fig:feature_engineering}c shows that there is not much variation depending on the season.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/city_price.png}
+\caption{Average price by city. The distribution is long-tailed: a few cities account for the high end of the market, justifying target encoding rather than one-hot.}
+\label{fig:city_price}
+\end{figure}
+
+City effects (Fig.~\ref{fig:city_price}) are sizable and heavy-tailed, as just a few cities are responsible for the higher end. With numerous cities included in the dataset, one-hot encoding would be redundant since it increases the dimensionality of the feature space without adding any value.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/feature_correlation_with_price.png}
+\caption{Absolute correlation of each retained feature with price. \textit{zip\_te}, \textit{sqft\_living}, and \textit{city\_te} are the three strongest individual predictors.}
+\label{fig:feature_corr}
+\end{figure}
+
+The ranking of correlation shown in Figure \ref{fig:feature_corr} gives the inputs that have contributed the most to the signal. The top three predictors include zip\_te ($r$=0.668), sqft\_living ($r$=0.640), and city\_te ($r$=0.532). The secondary set of predictors comprises bathrooms ($r$=0.489), bedrooms ($r$=0.327), and view ($r$=0.321). While the engineered features rank relatively low, they are kept according to the rules outlined above. The importance of both the location variables encoded by target encoding stands out as a common theme for the rest of the analysis.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/corr_comparison.png}
+\caption{Correlation matrix before and after feature selection. (a) Strong multicollinearity among size-related features(left). (b) After dropping \textit{basement\_ratio}, redundant pairs are removed and relationships with the target are preserved(right).}
+\label{fig:corr_comparison}
+\end{figure}
+
+The before-and-after comparison (see Fig.~\ref{fig:corr_comparison}) illustrates the effect of the multicollinearity reduction phase: only the predictor {basement\_ratio} is eliminated, leaving a 14-predictor model in which all the meaningful correlations are retained. Therefore, linear models are robust in further analysis.
+
+\subsection{Model Comparison}
+
+\begin{table}[htbp]
+\centering
+\caption{Test-set performance of all nine models, sorted by $R^{2}$.}
+\label{tab:model_performance}
+\begin{tabular}{lccc}
+\hline
+Model & $R^{2}$ & RMSE & MAE \\
+\hline
+Stacking V1 & 0.7429 & 147405 & 88005 \\
+Stacking V2 & 0.7428 & 147437 & 88232 \\
+Stacking V3 & 0.7422 & 147608 & 88009 \\
+XGBoost & 0.7375 & 148950 & 88548 \\
+GBR & 0.7298 & 151094 & 89896 \\
+Random Forest & 0.7276 & 151724 & 88525 \\
+MLP & 0.7046 & 158004 & 99704 \\
+Extra Trees & 0.7026 & 158540 & 94566 \\
+Ridge & 0.7002 & 159160 & 100678 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/model_comparison.png}
+\caption{Test $R^{2}$ for all nine models. Stacking variants narrowly beat the best individual model.}
+\label{fig:model_comparison}
+\end{figure}
+
+The comparison between the models is shown in Table \ref{tab:model_performance} and Figure \ref{fig:model_comparison}. From the individual models, XGBoost performs the best ($R^{2}$ = 0.7375) compared to GBR and Random Forest. The models using boosting and bagging algorithms rank high among the individual models, while the linear and neural baseline models are ranked relatively low. The result aligns with the finding from the exploratory data analysis (EDA) showing that the most important features have non-linear relationships with each other. All stacking configurations beat XGBoost with a margin of superiority in terms of $R^{2}$ and RMSE. Among the three configurations, V1 shows the highest $R^{2}$ score of 0.7429. The difference in $R^{2}$ and RMSE scores between the highest performing model (V1) and XGBoost is about 0.005 and 1,500, respectively. Although the margins are small, the improvements show consistency in all three performance measures and all three stacking configurations, suggesting that the differences are not accidental. Comparing V1 to the other two stacking configurations, we find that Configuration V1 performs better with an advantage in terms of $R^{2}$ of less than 0.001.
+
+\subsection{Ablation and Meta-Learner Coefficients}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{images/ablation.png}
+\caption{Leave-one-out ablation on Stacking V1. A positive $\Delta R^{2}$ means removing the model hurts performance.}
+\label{fig:ablation}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Leave-one-out ablation on Stacking V1.}
+\label{tab:ablation}
+\begin{tabular}{lcc}
+\hline
+Removed model & Resulting $R^{2}$ & $\Delta R^{2}$ \\
+\hline
+Random Forest & 0.7399 & $+0.0030$ \\
+XGBoost       & 0.7418 & $+0.0011$ \\
+Extra Trees   & 0.7424 & $+0.0005$ \\
+GBR           & 0.7427 & $+0.0002$ \\
+MLP           & 0.7428 & $+0.0000$ \\
+Ridge         & 0.7433 & $-0.0004$ \\
+\hline
+None (full)   & 0.7429 & $0$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Meta-learner coefficients on the OOF predictions. V1 uses Ridge; V3 uses LassoCV (the Extra Trees coefficient was set to exactly zero by Lasso).}
+\label{tab:meta_coefs}
+\begin{tabular}{lcc}
+\hline
+Base learner   & V1 (Ridge) & V3 (Lasso) \\
+\hline
+Random Forest  & $+0.5630$  & $+0.4503$  \\
+XGBoost        & $+0.2610$  & $+0.2612$  \\
+Ridge          & $+0.2415$  & $+0.2277$  \\
+GBR            & $+0.0802$  & $+0.0900$  \\
+MLP            & $+0.0172$  & $+0.0093$  \\
+Extra Trees    & $-0.1306$  & $0$ (dropped) \\
+\hline
+\end{tabular}
+\end{table}
+
+As can be seen from the ablation results in Fig. \ref{fig:ablation} and summarized in Table \ref{tab:ablation}, the hierarchy is obvious: the main player here is Random Forest, whose elimination causes a decrease in R-squared value of $\Delta R^{2}=0.0030$, about three times greater than the one caused by elimination of XGBoost ($\Delta R^{2}=0.0011$). GBR, MLP, and Extra Trees' contributions do not exceed $0.0005$, and removing Ridge leads to the marginal improvement of $0.0004$. This hierarchy, as expected, is supported by the V1 coefficients presented in Table \ref{tab:meta_coefs}. The largest coefficients correspond to the most important base models: Random Forest has a positive coefficient of $+0.563$, and XGBoost – $+0.261$. Ridge also gets a significant coefficient: $+0.242$. GBR and MLP get smaller values: $+0.080$ and $+0.017$, respectively, whereas Extra Trees gets negative $-0.131$ value. This does not mean that, isolated, Extra Trees model would perform worse. It uses the same algorithm as Random Forest, but the split criteria are different. As a consequence, the correlation between Extra Trees' and Random Forest's predictions is high, so that the Ridge learner uses Extra Trees in order to remove the overlap and leave only disagreement, which is the goal of stacking technique.
+
+Another evidence supporting the idea of redundancy of Extra Trees comes from the meta-Lasso in V3 setting. When allowed to drop predictors, it gives zero weight to Extra Trees, while the other five base models obtain nearly equal coefficients to those obtained previously in V1. Since the new model gets almost equal R-squared value ($R^{2}=0.7422$) compared to V1's result ($\Delta R^{2}=0.0008$), it shows that Extra Trees is redundant given that Random Forest is included in the ensemble. Thus, the conclusion we can draw based on the above results and analysis is that stacking mainly leverages Random Forest and XGBoost, whereas other learners have marginal effects, and Extra Trees turns out to be fully redundant in the presence of Random Forest model.
+
+\subsection{Diagnostics and Without Preprocessing Training}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/model_diagnostics_stacking_v3.png}
+\caption{Diagnostics for Stacking V3: predicted vs actual, residuals vs predicted, and residual distribution.}
+\label{fig:diagnostics}
+\end{figure}
+
+The results shown in Figure \ref{fig:diagnostics} confirm what is presented in the table. As can be seen from Figure \ref{fig:diagnostics}a, the predictions are tightly clustered around the line of identity. Figure \ref{fig:diagnostics}b shows that the residuals are centered around zero but their variance increases with increasing predicted values, which implies some degree of heteroscedasticity since the model has lower precision when predicting the prices of more costly properties, a result that is not unexpected since there were few observations left after filtering out those beyond the 99th percentile threshold.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{images/model_performance_before_after_preprocessing.png}
+\caption{$R^{2}$ for Random Forest and XGBoost before and after applying the preprocessing pipeline.}
+\label{fig:preprocess}
+\end{figure}
+
+Figure~\ref{fig:preprocess} shows the effect of pre-processing. Without pre-processing, both Random Forest and XGBoost produce an R² on test set of about 0.03. After the pre-processing step is applied to the data, the Random Forest produces a score of 0.723 and the XGBoost model 0.733. The difference in the results is considerably greater than the best to worst result difference shown in Table~\ref{tab:model_performance}.
+
+\section{Discussion}
+The outcomes show that ensemble models, and especially those based on trees, better fit the structure of housing data compared to linear or neural models. This can be seen from the ranking provided in Table~\ref{tab:model_performance}: XGBoost, Gradient Boosting Regressor (GBR), and Random Forest are among the top three, while Ridge regression and the MLP are at the bottom of the list. This outcome is coherent with the EDA results: the relationship between \textit{sqft\_living} and price is non-linear; waterfront and view variables are responsible for price steps; and target-encoded location features represent categorical information about price quite well. Linear models do not capture this non-linearity due to the additive assumption, which is not satisfied for housing data, while the MLP requires a larger sample and/or more expressive features to outperform the boosting baselines~\cite{hjort2022house,10.1214/aos/1013203451}.
+
+Furthermore, stacking provides a further improvement, even though it is minor. The three stacking variants exceed XGBoost by about $0.005$ in $R^{2}$, an increase consistently observed across all three stacking configurations. This phenomenon is clarified by the ablation analysis. Among the six learners, Random Forest and XGBoost provide the most valuable input to the ensemble; Extra Trees mainly decorrelates Random Forest, while the contribution of the remaining three learners is minimal. As a result, the meta-learner does not integrate six different perspectives on the problem but rather reweights two tree-based perspectives. This outcome is consistent with the findings of Bj{\o}rgve et al.~\cite{Bjrgve2025ComparingHV}, according to which the gains obtained through stacking in housing valuation are moderate when the stronngest base learners is not the right direction to optimize as base -learner diversity is what really counts. 
+
+A second observation concerns how the contribution of each base learner varies depending on whether it works in isolation or stacked with other learners. For example, XGBoost outperforms Random Forest by $0.010$ in $R^{2}$ as a standalone model, but when included in the stacking ensemble, Random Forest contributes nearly three times as much as XGBoost (Table~\ref{tab:ablation}). This indicates that the contribution made by a base learner to the ensemble is not determined by its standalone performance but by the complementary information it carries relative to the other learners. The OOF predictions of XGBoost apparently overlap with those of GBR and Extra Trees, which use related algorithmic mechanisms. On the contrary, Random Forest contributes a pattern difficult to replicate by the meta-learner using other learners' predictions. Such information cannot be captured by performance metrics; that is why leave-one-out ablation helps identify it.
+
+The last two comments apply to all model comparisons performed during this research project. First, the analysis of the preprocessing variant shows that the choice of data preparation strategy has a greater impact on model test performance than model selection itself: from $R^{2}\approx 0.03$ to $R^{2}>0.72$ upon removing outliers and engineering features. This outcome implies that, contrary to the conventional practice, preprocessing should not be considered an automatically performed preliminary step but rather regarded as a modelling decision. Second, the dominance of the target-encoded location features in the correlation ranking , \textit{zip\_te} (r=0.668, r=0.668, r=0.668) and \textit{city\_te} (r=0.532,r=0.532, r=0.532) relating to \textit{sqft\_living} (r=0.640r=0.640
+r=0.640) , confirms the importance of spatial information in housing valuation. It can be explained by the well-known problem of ignoring spatial heterogeneity in hedonic models  \cite{SELIM20092843}.
+
+\section{Conclusion and Future Work}
+This paper put a stacking ensemble for house price prediction through a controlled comparison and a leave-In this study, we analyze stacking for house price predictions through a controlled experiment on the King County Housing dataset. Our optimal stacking setup reached $R^{2}$ = 0.7429, barely beating XGBoost ($R^{2}$ = 0.7375). In addition, the ablation analysis shows that the contribution to the result from our stacking setup is virtually entirely made by Random Forest and XGBoost. With Lasso meta-learner, it also seems clear that this result would be nearly identical if the last four algorithms were left out. This means that there are just two learners worth including in the stack and adding other learners does not contribute much. This suggests, practically, that optimizing stack performance should involve choosing good base learners, not increasing the stack size.
+
+Two additional results follow from this analysis. The first is that preprocessing has a larger impact than model selection on this dataset. Tree-based learners move from $R^{2}\approx 0.03$ on raw data to $R^{2}>0.72$ once outliers are removed and engineered features are added. This shows that the signal connecting features to price exists in the dataset, but only becomes accessible to the model after preprocessing. The second result is that the target-encoded location features (\textit{zip\_te}, \textit{city\_te}) rank among the strongest predictors, on a par with \textit{sqft\_living}. Geography therefore accounts for a substantial share of the price variance, and target encoding offers a low-cost way to capture this signal without the dimensionality cost of one-hot encoding.
+
+This study has three main limitations. First, the model performs poorly on luxury houses due to insufficient representation by 99th- percentile filtering and lack of suitable features. Second, we use purely structural tabular features to make predictions. Including some other signals like economic factors, schools, geographic coordinates etc. could have provided further gains. Third, adding more learners did not lead to significant performance boosts as the gains seem to come mostly from a few good learners. These limitations point to three directions for future research. The first one is to train the model with custom loss functions designed to handle the right part of the distribution and/or weight high-cost cases. This could mitigate the heteroscedastic issue\cite{hjort2022house}. The second option is to experiment with different types of geographic encoding like learned embeddings or coordinate features instead of using target-encoding. Finally, instead of doing ablation studies after meta-learner fitting, we need a principled method for selecting base learners based on diversity.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\vspace{12pt}
+
+\end{document}

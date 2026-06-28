@@ -1,0 +1,8 @@
+regex="(\S+) from (([0-9]{1,3}\.){3}[0-9]{1,3})"
+cat auth.log | grep -E 'sshd.*Failed password' | while read -r line ;
+do
+ if [[ $line =~ $regex ]] ;
+ then
+ echo "${BASH_REMATCH[1]}:${BASH_REMATCH[2]}"
+ fi
+done

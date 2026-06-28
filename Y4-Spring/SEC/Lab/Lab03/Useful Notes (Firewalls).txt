@@ -1,0 +1,50 @@
+sudo ifconfig
+sudo iptables -A INPUT -s 10.0.2.4 -j DROP
+sudo iptables -L --line-numbers
+sudo iptables -D INPUT 1
+sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -j DROP
+sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+sudo iptables -I INPUT -i lo -j ACCEPT
+sudo service apache2 start
+sudo service apache2 status
+
+
+
+
+Lab03 Firewalls (Useful References)
+
+What Is DHCP? (Dynamic Host Configuration Protocol)
+https://www.lifewire.com/what-is-dhcp-2625848
+
+Linux ifconfig Command
+https://linuxize.com/post/ifconfig-command/
+
+Ping Command in Linux
+https://linuxize.com/post/linux-ping-command/
+
+How to Use the nmap Command
+https://linuxize.com/post/nmap-command/
+
+What is subnetting?
+https://networkcalc.com/articles/what-is-subnetting
+
+Understanding CIDR notation in IP subnets
+https://networkcalc.com/articles/cidr-notation
+
+Linux iptables command examples for new sysadmins
+https://www.cyberciti.biz/tips/linux-iptables-examples.html
+
+Iptables Essentials: Common Firewall Rules and Commands
+https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands
+
+iptables -A INPUT -m conntrack –ctstate ESTABLISHED,RELATED -j ACCEPT
+http://www.infotinks.com/iptables-input-m-conntrack-ctstate-establishedrelated-j-accept/
+
+How to Delete Iptables Rule
+https://phoenixnap.com/kb/iptables-delete-rule
+
+Kali http server setup
+https://linuxconfig.org/kali-http-server-setup
+
+
+
