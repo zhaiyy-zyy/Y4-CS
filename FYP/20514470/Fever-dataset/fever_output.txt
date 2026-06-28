@@ -1,0 +1,101 @@
+> python fever.py
+Device: cuda
+
+Loading FEVER dataset...
+FEVER stratified subset size: 1000
+
+Loading DETECTOR NLI model: roberta-large-mnli
+C:\Users\zhaiyy\anaconda3\envs\fyp_gpu\lib\site-packages\huggingface_hub\file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+
+Loading GOLD NLI model with fallback...
+  trying: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+  -> loaded GOLD: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+
+Loading SelfCheckGPT-NLI...
+SelfCheck-NLI initialized to device cuda
+
+Building question pool...
+Pool size: 800 | val questions: 160 | test questions: 640
+
+Precomputing VAL + TEST packs (slow due to Ollama)...
+VAL packs: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 160/160 [28:01<00:00, 10.51s/it]
+TEST packs: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████| 640/640 [1:49:03<00:00, 10.22s/it]
+
+Tuning threshold on VAL for each mode...
+  mode=full         | best_thr=0.20 | val_F1=0.9542
+  mode=no_judge     | best_thr=0.31 | val_F1=0.7251
+  mode=no_mnli      | best_thr=0.37 | val_F1=0.9542
+  mode=no_selfcheck | best_thr=0.01 | val_F1=0.9542
+  mode=judge_only   | best_thr=0.01 | val_F1=0.9542
+
+Fitting hallucination probability calibrator on VAL...
+  calibration model fitted (IsotonicRegression)
+
+Calibration check:
+score=0.00 -> P(halluc)=0.957
+score=0.05 -> P(halluc)=0.957
+score=0.11 -> P(halluc)=0.957
+score=0.16 -> P(halluc)=0.957
+score=0.21 -> P(halluc)=0.224
+score=0.26 -> P(halluc)=0.191
+score=0.32 -> P(halluc)=0.158
+score=0.37 -> P(halluc)=0.125
+score=0.42 -> P(halluc)=0.092
+score=0.47 -> P(halluc)=0.067
+score=0.53 -> P(halluc)=0.039
+score=0.58 -> P(halluc)=0.000
+score=0.63 -> P(halluc)=0.000
+score=0.68 -> P(halluc)=0.000
+score=0.74 -> P(halluc)=0.000
+score=0.79 -> P(halluc)=0.000
+score=0.84 -> P(halluc)=0.000
+score=0.89 -> P(halluc)=0.000
+score=0.95 -> P(halluc)=0.000
+score=1.00 -> P(halluc)=0.000
+
+Mitigation thresholds (default): t_low_ok=0.200, t_high_ok=0.250, abstain_thr=0.280 | K=10 | MID_KIND=strict
+
+Tuning t_high on VAL (n=150 questions) to reduce hallucination...
+  tuned t_high_ok=0.225 | obj=0.2667 | halluc=0.2667 abstain=0.0000 regress=0.0000
+
+Mitigation thresholds (FINAL): t_low_ok=0.200, t_high_ok=0.225, abstain_thr=0.280 | K=10 | MID_KIND=strict
+
+Running threshold analysis...
+
+Threshold analysis results:
+{'t_high': 0.2, 'halluc_rate': 0.5625, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.2277777777777778, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.25555555555555554, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.2833333333333333, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.3111111111111111, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.3388888888888889, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.3666666666666667, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.39444444444444443, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.4222222222222222, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+{'t_high': 0.45, 'halluc_rate': 0.26249999999999996, 'abstain_rate': 0.0, 'regress_rate': 0.0}
+Saved threshold analysis to fever_threshold_analysis.csv
+
+Running paired Monte-Carlo on TEST...
+
+=== FINAL SUMMARY (Detection) ===
+mode         |  F1_mean   F1_std |      Q-std |      A-std |   thr*
+----------------------------------------------------------------------------------------------------
+full         | F1=0.9606±0.0031 | Q-std=0.0289 | A-std=0.1685 | hall_p=0.620 | corr_p=0.380 | thr=0.20
+no_judge     | F1=0.7587±0.0195 | Q-std=0.0000 | A-std=0.0382 | hall_p=0.000 | corr_p=0.000 | thr=0.31
+no_mnli      | F1=0.9606±0.0031 | Q-std=0.0525 | A-std=0.3064 | hall_p=0.000 | corr_p=0.000 | thr=0.37
+no_selfcheck | F1=0.9606±0.0031 | Q-std=0.0361 | A-std=0.2068 | hall_p=0.000 | corr_p=0.000 | thr=0.01
+judge_only   | F1=0.9606±0.0031 | Q-std=0.0825 | A-std=0.4728 | hall_p=0.000 | corr_p=0.000 | thr=0.01
+
+=== MITIGATION SUMMARY (Question-level final answer) ===
+policy           |    gold_ok     halluc | filtered_halluc  valid_ans |      NEI    abstain |        Δok |      impr/reg/abst |    hall_p(base->final) |    corr_p(base->final)
+------------------------------------------------------------------------------------------------------------------------
+base             |     0.3867     0.6133 |         0.6133     1.0000 |   0.0717     0.0000 |     0.0000 |   0.00±0.00/  0.00±0.00/  0.00±0.00 | 0.153->0.153 | 0.847->0.847
+always_mild      |     0.4250     0.5750 |         0.5750     1.0000 |   0.8550     0.0000 |     0.0198 |  72.33±1.89/ 64.67±4.99/  0.00±0.00 | 0.153->0.140 | 0.847->0.860
+always_strict_K  |     0.6883     0.3117 |         0.3117     1.0000 |   0.3733     0.0000 |     0.1061 |  60.33±5.79/  0.00±0.00/  0.00±0.00 | 0.152->0.213 | 0.848->0.787
+policy           |     0.6883     0.3117 |         0.3117     1.0000 |   0.3733     0.0000 |     0.1075 |  60.33±5.31/  0.00±0.00/  0.00±0.00 | 0.153->0.211 | 0.847->0.789
+
+Saved: fever_paper_overall_summary.json, fever_paper_overall_summary.csv
+Mitigation cases saved: fever_mitigation_cases.csv (up to 500 rows per policy per run)
+Optional detection error cases: fever_paper_error_cases.csv (up to 200 mismatches per mode per run)
+>

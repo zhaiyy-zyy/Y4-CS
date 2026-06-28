@@ -1,0 +1,88 @@
+(base) PS C:\Users\zhaiyy\Desktop\fever> python f12.py
+Device: cpu
+
+Loading FEVER dataset...
+FEVER stratified subset size: 1000
+
+Loading DETECTOR NLI model: roberta-large-mnli
+
+Loading GOLD NLI model with fallback...
+  trying: microsoft/deberta-v3-base-mnli
+  failed: microsoft/deberta-v3-base-mnli | microsoft/deberta-v3-base-mnli is not a local folder and is not a valid model identifier listed on 'https://huggingface.
+  trying: microsoft/deberta-v3-large-mnli
+  failed: microsoft/deberta-v3-large-mnli | microsoft/deberta-v3-large-mnli is not a local folder and is not a valid model identifier listed on 'https://huggingface
+  trying: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+  -> loaded GOLD: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+
+Loading SelfCheckGPT-NLI...
+SelfCheck-NLI initialized to device cpu
+
+Building question pool...
+Pool size: 800 | val questions: 160 | test questions: 640
+
+Precomputing VAL + TEST packs (slow due to Ollama)...
+VAL packs: 100%|███████████████████████████████████████████████████████████████████| 160/160 [1:00:28<00:00, 22.68s/it]
+TEST packs: 100%|██████████████████████████████████████████████████████████████████| 640/640 [3:59:59<00:00, 22.50s/it]
+
+Tuning threshold on VAL for each mode...
+  mode=full         | best_thr=0.20 | val_F1=0.9731
+  mode=no_judge     | best_thr=0.31 | val_F1=0.7516
+  mode=no_mnli      | best_thr=0.37 | val_F1=0.9731
+  mode=no_selfcheck | best_thr=0.01 | val_F1=0.9731
+  mode=judge_only   | best_thr=0.01 | val_F1=0.9731
+
+Fitting hallucination probability calibrator on VAL...
+  calibration model fitted (IsotonicRegression)
+
+Calibration check:
+score=0.00 -> P(halluc)=1.000
+score=0.05 -> P(halluc)=1.000
+score=0.11 -> P(halluc)=1.000
+score=0.16 -> P(halluc)=0.955
+score=0.21 -> P(halluc)=0.639
+score=0.26 -> P(halluc)=0.505
+score=0.32 -> P(halluc)=0.370
+score=0.37 -> P(halluc)=0.236
+score=0.42 -> P(halluc)=0.101
+score=0.47 -> P(halluc)=0.000
+score=0.53 -> P(halluc)=0.000
+score=0.58 -> P(halluc)=0.000
+score=0.63 -> P(halluc)=0.000
+score=0.68 -> P(halluc)=0.000
+score=0.74 -> P(halluc)=0.000
+score=0.79 -> P(halluc)=0.000
+score=0.84 -> P(halluc)=0.000
+score=0.89 -> P(halluc)=0.000
+score=0.95 -> P(halluc)=0.000
+score=1.00 -> P(halluc)=0.000
+
+Mitigation thresholds (default): t_low_ok=0.200, t_high_ok=0.250, abstain_thr=0.280 | K=10 | MID_KIND=strict
+
+Tuning t_high on VAL (n=150 questions) to reduce hallucination...
+  tuned t_high_ok=0.225 | obj=0.2933 | halluc=0.2933 abstain=0.0000 regress=0.0000
+
+Mitigation thresholds (FINAL): t_low_ok=0.200, t_high_ok=0.225, abstain_thr=0.280 | K=10 | MID_KIND=strict
+
+Running paired Monte-Carlo on TEST...
+
+=== FINAL SUMMARY (Detection) ===
+mode         |  F1_mean   F1_std |      Q-std |      A-std |   thr*
+----------------------------------------------------------------------------------------------------
+full         | F1=0.9554±0.0027 | Q-std=0.0231 | A-std=0.1697 | hall_p=0.614 | corr_p=0.386 | thr=0.20
+no_judge     | F1=0.7474±0.0224 | Q-std=0.0000 | A-std=0.0372 | hall_p=0.000 | corr_p=0.000 | thr=0.31
+no_mnli      | F1=0.9554±0.0027 | Q-std=0.0420 | A-std=0.3086 | hall_p=0.000 | corr_p=0.000 | thr=0.37
+no_selfcheck | F1=0.9554±0.0027 | Q-std=0.0289 | A-std=0.2085 | hall_p=0.000 | corr_p=0.000 | thr=0.01
+judge_only   | F1=0.9554±0.0027 | Q-std=0.0660 | A-std=0.4766 | hall_p=0.000 | corr_p=0.000 | thr=0.01
+
+=== MITIGATION SUMMARY (Question-level final answer) ===
+policy           |    gold_ok     halluc | filtered_halluc  valid_ans |      NEI    abstain |        Δok |  impr/reg/abst
+------------------------------------------------------------------------------------------------------------------------
+base             |     0.4050     0.5950 |     0.5950 |     1.0000 |   0.0617       0.0000 |     0.0000 |    0/  0/   0 | hall_p: 0.426->0.426 | corr_p: 0.574->0.574
+always_mild      |     0.4417     0.5583 |     0.5583 |     1.0000 |   0.8417       0.0000 |     0.0169 |   72/ 65/   0 | hall_p: 0.426->0.394 | corr_p: 0.574->0.606
+always_strict_K  |     0.7033     0.2967 |     0.2967 |     1.0000 |   0.3633       0.0000 |     0.1084 |   60/  0/   0 | hall_p: 0.427->0.220 | corr_p: 0.573->0.780
+policy           |     0.7050     0.2950 |     0.2950 |     1.0000 |   0.3650       0.0000 |     0.1093 |   60/  0/   0 | hall_p: 0.428->0.220 | corr_p: 0.572->0.780
+
+Saved: f_paper_overall_summary12.json, f_paper_overall_summary12.csv
+Mitigation cases saved: f_mitigation_cases12.csv (up to 500 rows per policy per run)
+Optional detection error cases: f_paper_error_cases12.csv (up to 200 mismatches per mode per run)
+(base) PS C:\Users\zhaiyy\Desktop\fever>

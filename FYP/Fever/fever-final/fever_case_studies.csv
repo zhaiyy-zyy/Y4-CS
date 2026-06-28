@@ -1,0 +1,25 @@
+question,base_answer,final_answer,outcome
+Martin Scorsese has won an ant.,"LABEL: REFUTED
+REASON: The evidence provided does not suggest that Martin Scorsese has won an ant. In fact, there is no evidence to suggest that he has even won any awards or recognition for his work in filmmaking.","LABEL: NOT ENOUGH INFO
+REASON: Insufficient evidence to determine if Martin Scorsese has won an ant.",Improved
+Leonardo Bonucci was named the Serie A Basketballer of the Year.,"LABEL: REFUTED
+REASON: The evidence provided does not support the claim that Leonardo Bonucci was named the Serie A Basketballer of the Year, as there is no mention of such an award or recognition in the provided information.","LABEL: NOT ENOUGH INFO
+REASON: The claim that Leonardo Bonucci was named the Serie A Basketballer of the Year is not supported by the provided evidence, as there is no information in the given text about Bonucci's involvement in basketball or any awards he may have received.",Improved
+Huntington's disease research is not being conducted on non-human animals.,"LABEL: REFUTED
+REASON: There are numerous studies that have used non-human animals, such as mice and rats, to model the progression of Huntington's disease and test potential treatments, indicating that research is indeed being conducted on non-human animals. (Source: National Institute of Neurological Disorders and Stroke. (n.d.). Huntington's Disease Information Page. Retrieved from <https://www.ninds.nih.gov/Disorders/All-Disorders/Huntingtons-Disease-Information-Page>)","LABEL: NOT ENOUGH INFO
+REASON: Insufficient evidence to determine whether Huntington's disease research is being conducted on non-human animals.",Improved
+Haifa is located in the United States.,"LABEL: REFUTED
+REASON: The evidence provided states that Haifa is located in Israel, not the United States.","LABEL: NOT ENOUGH INFO
+REASON: The claim that Haifa is located in the United States is not supported by the provided evidence, as it does not provide any information about the location of Haifa.",Regressed
+Shakira is only a mechanic.,"LABEL: REFUTED
+REASON: The claim is refuted by the fact that Shakira is a successful singer and songwriter, as well as a philanthropist and entrepreneur, which suggests that she has a diverse range of skills and talents beyond mechanics.","LABEL: NOT ENOUGH INFO
+REASON: There is insufficient evidence to support or refute the claim that Shakira is only a mechanic.",Regressed
+Judi Dench did not star in Philomena.,"LABEL: REFUTED
+REASON: The claim that Judi Dench did not star in Philomena is refuted by the fact that Judi Dench indeed stars in the film Philomena (2013), as evidenced by her appearance in the movie's cast list and credits.","LABEL: NOT ENOUGH INFO
+REASON: There is insufficient evidence to support or refute the claim that Judi Dench starred in Philomena.",Regressed
+Solange Knowles is a vocalist.,"LABEL: SUPPORTED
+REASON: Based on the provided evidence, it is clear that Solange Knowles is indeed a vocalist. Her profession as a singer and songwriter is well-documented through her music releases and performances.",,Error
+Room is not based on a novel of the same name.,"LABEL: REFUTED
+REASON: The movie ""Room"" was indeed based on a novel of the same name written by Emma Donoghue, which was published in 2010.",,Error
+Whiplash features a parrot.,"LABEL: NOT ENOUGH INFO
+REASON: NOT ENOUGH INFO - The provided evidence does not contain any information about a parrot being in the movie Whiplash.",,Error

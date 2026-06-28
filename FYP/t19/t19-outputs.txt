@@ -1,0 +1,84 @@
+(base) PS C:\Users\zhaiyy\Desktop\tqa> python t19.py
+Device: cpu
+
+Loading TruthfulQA from local JSON...
+Dataset size: 817
+Final subset size: 817
+
+Loading DETECTOR NLI model: roberta-large-mnli
+
+Loading GOLD NLI model with fallback...
+  trying: microsoft/deberta-v3-base-mnli
+  failed: microsoft/deberta-v3-base-mnli | microsoft/deberta-v3-base-mnli is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this i
+  trying: microsoft/deberta-v3-large-mnli
+  failed: microsoft/deberta-v3-large-mnli | microsoft/deberta-v3-large-mnli is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this
+  trying: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+  -> loaded GOLD: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+
+Loading SelfCheckGPT-NLI...
+SelfCheck-NLI initialized to device cpu
+
+Building question pool...
+Pool size: 817 | val questions: 163 | test questions: 654
+
+Precomputing VAL + TEST packs (slow due to Ollama)...
+VAL packs: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 163/163 [48:32<00:00, 17.87s/it]
+TEST packs: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 654/654 [2:47:35<00:00, 15.38s/it]
+Calibration samples: 489
+
+[Calibration-full] trained on 489 samples
+
+[Calibration-no_judge] trained on 489 samples
+
+[Calibration-no_mnli] trained on 489 samples
+
+[Calibration-no_selfcheck] trained on 489 samples
+
+[Calibration-judge_only] trained on 489 samples
+
+Tuning threshold on VAL for each mode...
+  mode=full         | best_thr=0.70 | val_F1=0.9217
+  mode=no_judge     | best_thr=0.73 | val_F1=0.9217
+  mode=no_mnli      | best_thr=0.59 | val_F1=0.9217
+  mode=no_selfcheck | best_thr=0.69 | val_F1=0.9217
+  mode=judge_only   | best_thr=0.60 | val_F1=0.9217
+
+Mitigation thresholds (default): t_low_ok=0.430, t_high_ok=0.626, abstain_thr=0.380 | K=10 | MID_KIND=strict
+
+Tuning t_high on VAL (n=150 questions) to reduce hallucination...
+  tuned t_high_ok=0.480 | obj=0.8467 | halluc=0.8467 abstain=0.0000 regress=0.0000
+
+Mitigation thresholds (FINAL): t_low_ok=0.430, t_high_ok=0.480, abstain_thr=0.380 | K=10 | MID_KIND=strict
+
+Running paired Monte-Carlo on TEST...
+
+=== FINAL SUMMARY (Detection) ===
+mode         |  F1_mean   F1_std |      Q-std |      A-std |   thr*
+----------------------------------------------------------------------------------------------------
+full         |   0.9342   0.0006 | Q-std=0.0402 | A-std=0.1106 |   0.70
+no_judge     |   0.9352   0.0005 | Q-std=0.0422 | A-std=0.1254 |   0.73
+no_mnli      |   0.9355   0.0005 | Q-std=0.0159 | A-std=0.0511 |   0.59
+no_selfcheck |   0.9360   0.0002 | Q-std=0.0381 | A-std=0.1070 |   0.69
+judge_only   |   0.9360   0.0002 | Q-std=0.0159 | A-std=0.0543 |   0.60
+
+=== Paired ΔF1 per run (full - ablation) ===
+no_judge    : ΔF1 mean=-0.0010 std=0.0002  (positive => full better)
+no_mnli     : ΔF1 mean=-0.0014 std=0.0002  (positive => full better)
+no_selfcheck: ΔF1 mean=-0.0019 std=0.0005  (positive => full better)
+judge_only  : ΔF1 mean=-0.0019 std=0.0005  (positive => full better)
+
+=== MITIGATION SUMMARY (Question-level final answer) ===
+policy           | base_hallu  final_hallu     Δhallu | filtered_halluc |  valid_ans | base_abs  final_abs |  Δok_score |  impr/reg/abst |  p_hall(base->final)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+base             |     0.8827       0.8827     0.0000 |          0.8824 |     0.9980 |   0.0020     0.0020 |    -0.0000 |    0/  0/   1 | 0.4926->0.4925
+rewrite_once     |     0.8827       0.8860    -0.0033 |          0.8858 |     0.9980 |   0.0020     0.0020 |     0.0022 |    4/  5/   1 | 0.4926->0.4910
+rewrite_K        |     0.8827       0.9000    -0.0173 |          0.8998 |     0.9980 |   0.0020     0.0020 |    -0.0117 |   13/ 22/   1 | 0.4926->0.4996
+detector_conditioned_truthful |     0.8827       0.8933    -0.0107 |          0.8905 |     0.9740 |   0.0020     0.0260 |     0.0033 |    3/  8/  11 | 0.4926->0.4891
+detector_conditioned_utility |     0.8827       0.8900    -0.0073 |          0.8898 |     0.9980 |   0.0020     0.0020 |     0.0101 |    2/  6/   1 | 0.4926->0.4887
+
+Saved: truthfulqa_paper_overall_summary_all19.json, truthfulqa_paper_overall_summary_all19.csv
+Mitigation cases saved: truthfulqa_mitigation_cases_all19.csv (up to 500 rows per policy per run)
+Optional detection error cases: truthfulqa_paper_error_cases_all19.csv (up to 200 mismatches per mode per run)
+(base) PS C:\Users\zhaiyy\Desktop\tqa>

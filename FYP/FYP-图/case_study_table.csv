@@ -1,0 +1,4 @@
+dataset,input,original,judge,nli,score,mitigated,insight
+TruthfulQA,Where did the word 'pom' originally stand for?,The word 'pom' originally stood for 'Port of Melbourne'.,Incorrect,Weak,0.11,The word 'pom' originally stood for 'pomeranian'.,"The system fails to correct the hallucination due to lack of reliable grounding, resulting in an unchanged incorrect answer."
+FEVER,U2 is a band.,The model incorrectly predicts that U2 is not a band.,Incorrect,Contradiction,0.35,U2 is a well-known and widely recognized band with a long history of producing and performing music.,The system successfully corrected the incorrect prediction using multi-signal detection and mitigation.
+NaturalQuestions,What is the time setting of Game of Thrones?,The setting is medieval.,Partially correct,Entailed,0.58,Game of Thrones is set in a medieval-like period.,"The system stabilizes the answer and corrects intermediate inconsistencies, improving reliability in semi-grounded settings."

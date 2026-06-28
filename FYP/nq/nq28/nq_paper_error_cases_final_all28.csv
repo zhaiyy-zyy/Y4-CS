@@ -1,0 +1,691 @@
+mode,run,q_idx,question,reference,answer,gold_ok,pred_ok,score,threshold,judge_ok,ent,con,selfcheck
+full,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7901407907158137,0.77,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+full,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7901407907158137,0.77,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+full,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7901407907158137,0.77,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+full,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7901407907158137,0.77,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+full,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7901407907158137,0.77,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+full,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7952526242844761,0.77,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+full,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7952526242844761,0.77,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+full,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7952526242844761,0.77,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+full,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7952526242844761,0.77,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+full,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7952526242844761,0.77,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+full,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5524206429099043,0.77,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+full,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5524206429099043,0.77,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+full,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5524206429099043,0.77,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+full,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5524206429099043,0.77,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+full,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5524206429099043,0.77,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+full,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7967219112813473,0.77,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+full,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7967219112813473,0.77,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+full,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7967219112813473,0.77,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+full,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7967219112813473,0.77,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+full,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7967219112813473,0.77,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+full,0,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.653952388005952,0.77,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+full,0,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.3792538147171338,0.77,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+full,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,0,425,is coca cola a public or private company,Public,public company,True,False,0.596518200110489,0.77,True,0.4922698140144348,0.006642753724008799,0.4475034773349762
+full,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7948318494274282,0.77,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+full,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7948318494274282,0.77,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+full,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.38075539292767646,0.77,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+full,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.38075539292767646,0.77,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+full,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.38075539292767646,0.77,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+full,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.38075539292767646,0.77,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+full,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.38075539292767646,0.77,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+full,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.84576982311594,0.77,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+full,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.84576982311594,0.77,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+full,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.84576982311594,0.77,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+full,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.84576982311594,0.77,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+full,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.84576982311594,0.77,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+full,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8110242549236865,0.77,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+full,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8110242549236865,0.77,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+full,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8110242549236865,0.77,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+full,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8110242549236865,0.77,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+full,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8110242549236865,0.77,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+full,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7831080498546362,0.77,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+full,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7831080498546362,0.77,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+full,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7831080498546362,0.77,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+full,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7831080498546362,0.77,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+full,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7831080498546362,0.77,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+no_judge,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7944256987189874,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_judge,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7944256987189874,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_judge,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7944256987189874,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_judge,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7944256987189874,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_judge,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7944256987189874,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_judge,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.6943933024226377,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_judge,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.6943933024226377,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_judge,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.6943933024226377,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_judge,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.6943933024226377,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_judge,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.6943933024226377,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_judge,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7963846929371357,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_judge,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7963846929371357,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_judge,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7963846929371357,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_judge,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7963846929371357,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_judge,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7963846929371357,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_judge,0,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.6209079542973388,0.79,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+no_judge,0,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.2822967028866211,0.79,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+no_judge,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,0,425,is coca cola a public or private company,Public,public company,True,False,0.5459798878243115,0.79,True,0.4922698140144348,0.006642753724008799,0.4475034773349762
+no_judge,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7936153116432251,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_judge,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7936153116432251,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_judge,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.47941852177027616,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_judge,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.47941852177027616,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_judge,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.47941852177027616,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_judge,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.47941852177027616,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_judge,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.47941852177027616,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_judge,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.857627060167336,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_judge,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.857627060167336,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_judge,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.857627060167336,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_judge,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.857627060167336,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_judge,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.857627060167336,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_judge,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8144727300736122,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_judge,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8144727300736122,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_judge,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8144727300736122,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_judge,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8144727300736122,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_judge,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.8144727300736122,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_judge,0,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,0,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,0,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,0,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,0,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_mnli,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.4421374142395727,0.73,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_mnli,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.4421374142395727,0.73,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_mnli,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.4421374142395727,0.73,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_mnli,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.4421374142395727,0.73,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_mnli,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.4421374142395727,0.73,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_mnli,0,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.5934024865428605,0.73,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+no_mnli,0,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.5112231637492324,0.73,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+no_mnli,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,0,425,is coca cola a public or private company,Public,public company,True,False,0.6910518007324726,0.73,True,0.4922698140144348,0.006642753724008799,0.4475034773349762
+no_mnli,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.166081730987538,0.73,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_mnli,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.166081730987538,0.73,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_mnli,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.166081730987538,0.73,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_mnli,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.166081730987538,0.73,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_mnli,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.166081730987538,0.73,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_mnli,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7707549600382194,0.73,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_mnli,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7707549600382194,0.73,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_mnli,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7707549600382194,0.73,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_mnli,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7707549600382194,0.73,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_mnli,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7707549600382194,0.73,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_selfcheck,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7686773729510605,0.75,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+no_selfcheck,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7686773729510605,0.75,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+no_selfcheck,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7686773729510605,0.75,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+no_selfcheck,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7686773729510605,0.75,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+no_selfcheck,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7686773729510605,0.75,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+no_selfcheck,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7743050468464693,0.75,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_selfcheck,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7743050468464693,0.75,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_selfcheck,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7743050468464693,0.75,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_selfcheck,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7743050468464693,0.75,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_selfcheck,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7743050468464693,0.75,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+no_selfcheck,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5067317459042426,0.75,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_selfcheck,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5067317459042426,0.75,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_selfcheck,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5067317459042426,0.75,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_selfcheck,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5067317459042426,0.75,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_selfcheck,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.5067317459042426,0.75,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+no_selfcheck,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7765859950747754,0.75,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_selfcheck,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7765859950747754,0.75,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_selfcheck,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7765859950747754,0.75,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_selfcheck,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7765859950747754,0.75,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_selfcheck,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7765859950747754,0.75,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+no_selfcheck,0,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.707164457095442,0.75,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+no_selfcheck,0,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.4250036788207513,0.75,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+no_selfcheck,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,0,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,0,425,is coca cola a public or private company,Public,public company,True,False,0.6015571143538518,0.75,True,0.4922698140144348,0.006642753724008799,0.4475034773349762
+no_selfcheck,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7724689888205225,0.75,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_selfcheck,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7724689888205225,0.75,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_selfcheck,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.31461859531700614,0.75,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_selfcheck,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.31461859531700614,0.75,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_selfcheck,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.31461859531700614,0.75,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_selfcheck,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.31461859531700614,0.75,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_selfcheck,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.31461859531700614,0.75,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+no_selfcheck,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.829324501366527,0.75,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_selfcheck,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.829324501366527,0.75,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_selfcheck,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.829324501366527,0.75,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_selfcheck,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.829324501366527,0.75,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_selfcheck,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.829324501366527,0.75,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+no_selfcheck,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972139016932084,0.75,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_selfcheck,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972139016932084,0.75,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_selfcheck,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972139016932084,0.75,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_selfcheck,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972139016932084,0.75,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_selfcheck,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972139016932084,0.75,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+no_selfcheck,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.760928096767101,0.75,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+no_selfcheck,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.760928096767101,0.75,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+no_selfcheck,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.760928096767101,0.75,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+no_selfcheck,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.760928096767101,0.75,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+no_selfcheck,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.760928096767101,0.75,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+no_selfcheck,0,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7658238091772156,0.75,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+no_selfcheck,0,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7658238091772156,0.75,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+judge_only,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7984733824618161,0.79,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+judge_only,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7984733824618161,0.79,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+judge_only,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7984733824618161,0.79,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+judge_only,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7984733824618161,0.79,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+judge_only,0,158,when did they stop cigarette advertising on television,"January 2, 1971",1971,False,True,0.7984733824618161,0.79,True,0.9206445813179016,0.007633087690919638,0.015161831863224506
+judge_only,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7985603265464306,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+judge_only,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7985603265464306,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+judge_only,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7985603265464306,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+judge_only,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7985603265464306,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+judge_only,0,235,when was the first star wars film released,"May 25, 1977",1977,False,True,0.7985603265464306,0.79,True,0.9309532046318054,0.007198367267847061,0.01477950531989336
+judge_only,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.0,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+judge_only,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.0,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+judge_only,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.0,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+judge_only,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.0,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+judge_only,0,265,the area enclosed by hysteresis loop is a measure of,energy loss,Energy,True,False,0.0,0.79,False,0.818706214427948,0.07734997570514679,0.02090928889811039
+judge_only,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7980707846581936,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+judge_only,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7980707846581936,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+judge_only,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7980707846581936,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+judge_only,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7980707846581936,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+judge_only,0,378,when was the first episode of scooby doo,"September 13, 1969",1969,False,True,0.7980707846581936,0.79,True,0.9408456683158875,0.009646076709032059,0.020125627517700195
+judge_only,0,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.7861301228404045,0.79,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+judge_only,0,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.7670822620391846,0.79,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+judge_only,0,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,0,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,0,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,0,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,0,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,0,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,0,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,0,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,0,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.79969800056424,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+judge_only,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.79969800056424,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+judge_only,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20,False,True,0.7995584358926863,0.79,True,0.9575425386428833,0.002207820536568761,0.006109546171501279
+judge_only,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20,False,True,0.7995584358926863,0.79,True,0.9575425386428833,0.002207820536568761,0.006109546171501279
+judge_only,0,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20,False,True,0.7995584358926863,0.79,True,0.9575425386428833,0.002207820536568761,0.006109546171501279
+judge_only,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.0,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+judge_only,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.0,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+judge_only,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.0,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+judge_only,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.0,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+judge_only,0,100,when did refrigerator perry play for the bears,1985–1993,1985,True,False,0.0,0.79,False,0.7612598538398743,0.0694856122136116,0.010116306133568287
+judge_only,0,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,0,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,0,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,0,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,0,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7983408749103547,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+judge_only,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7983408749103547,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+judge_only,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7983408749103547,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+judge_only,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7983408749103547,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+judge_only,0,247,where in the bible is the book of revelation,in the New Testament,New Testament,False,True,0.7983408749103547,0.79,True,0.9515572190284729,0.008295625448226929,0.004563156049698591
+judge_only,0,616,who did the united states fight in the war of 1812,United Kingdom,Britain,False,True,0.795811090245843,0.79,True,0.8987961411476135,0.02094454877078533,0.050901249051094055
+judge_only,0,616,who did the united states fight in the war of 1812,United Kingdom,Britain,False,True,0.795811090245843,0.79,True,0.8987961411476135,0.02094454877078533,0.050901249051094055
+judge_only,0,616,who did the united states fight in the war of 1812,United Kingdom,Britain,False,True,0.795811090245843,0.79,True,0.8987961411476135,0.02094454877078533,0.050901249051094055
+judge_only,0,616,who did the united states fight in the war of 1812,United Kingdom,Britain,False,True,0.795811090245843,0.79,True,0.8987961411476135,0.02094454877078533,0.050901249051094055
+judge_only,0,616,who did the united states fight in the war of 1812,United Kingdom,Britain,False,True,0.795811090245843,0.79,True,0.8987961411476135,0.02094454877078533,0.050901249051094055
+judge_only,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972303543239833,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+judge_only,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972303543239833,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+judge_only,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972303543239833,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+judge_only,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972303543239833,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+judge_only,0,385,who sang the song i think we're alone now,Tommy James and the Shondells,the Shondells,False,True,0.7972303543239833,0.79,True,0.9521198272705078,0.013848228380084038,0.06191292032599449
+judge_only,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7979330128058791,0.79,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+judge_only,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7979330128058791,0.79,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+judge_only,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7979330128058791,0.79,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+judge_only,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7979330128058791,0.79,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+judge_only,0,754,when did gimme gimme gimme start,8 January 1999,1999,False,True,0.7979330128058791,0.79,True,0.9110300540924072,0.01033493597060442,0.0152053851634264
+judge_only,0,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,0,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,0,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,0,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,0,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,0,358,most of new zealands land supports which economic activity,Pastoral farming,Agriculture,False,True,0.7963269572705031,0.79,True,0.825018048286438,0.01836521364748478,0.007881596684455872
+judge_only,0,358,most of new zealands land supports which economic activity,Pastoral farming,Agriculture,False,True,0.7963269572705031,0.79,True,0.825018048286438,0.01836521364748478,0.007881596684455872
+judge_only,0,358,most of new zealands land supports which economic activity,Pastoral farming,Agriculture,False,True,0.7963269572705031,0.79,True,0.825018048286438,0.01836521364748478,0.007881596684455872
+judge_only,0,358,most of new zealands land supports which economic activity,Pastoral farming,Agriculture,False,True,0.7963269572705031,0.79,True,0.825018048286438,0.01836521364748478,0.007881596684455872
+judge_only,0,358,most of new zealands land supports which economic activity,Pastoral farming,Agriculture,False,True,0.7963269572705031,0.79,True,0.825018048286438,0.01836521364748478,0.007881596684455872
+judge_only,0,552,where is fulda and what is its significance,"Hesse, Germany",is in Germany,False,True,0.7988034903071821,0.79,True,0.8904922604560852,0.005982548464089632,0.0018796185031533241
+judge_only,0,552,where is fulda and what is its significance,"Hesse, Germany",is in Germany,False,True,0.7988034903071821,0.79,True,0.8904922604560852,0.005982548464089632,0.0018796185031533241
+judge_only,0,552,where is fulda and what is its significance,"Hesse, Germany",is in Germany,False,True,0.7988034903071821,0.79,True,0.8904922604560852,0.005982548464089632,0.0018796185031533241
+judge_only,0,552,where is fulda and what is its significance,"Hesse, Germany",is in Germany,False,True,0.7988034903071821,0.79,True,0.8904922604560852,0.005982548464089632,0.0018796185031533241
+judge_only,0,552,where is fulda and what is its significance,"Hesse, Germany",is in Germany,False,True,0.7988034903071821,0.79,True,0.8904922604560852,0.005982548464089632,0.0018796185031533241
+judge_only,0,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7949825901538135,0.79,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+judge_only,0,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7949825901538135,0.79,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+judge_only,0,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,0,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,0,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,0,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,0,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,0,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,0,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,0,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,0,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,0,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+full,1,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.3792538147171338,0.77,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+full,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7076175183216886,0.77,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+full,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8262423082461048,0.77,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+full,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8262423082461048,0.77,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+full,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8262423082461048,0.77,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+full,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8262423082461048,0.77,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+full,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8262423082461048,0.77,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+full,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.688822927425305,0.77,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+full,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.688822927425305,0.77,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+full,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.688822927425305,0.77,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+full,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.688822927425305,0.77,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+full,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.688822927425305,0.77,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+full,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7891674989508465,0.77,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+full,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7891674989508465,0.77,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+full,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7891674989508465,0.77,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+full,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7891674989508465,0.77,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+full,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7891674989508465,0.77,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+full,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7948318494274282,0.77,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+full,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7948318494274282,0.77,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+full,1,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,1,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,1,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,1,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,1,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.615301620066166,0.77,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+full,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.615301620066166,0.77,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+full,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.615301620066166,0.77,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+full,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.615301620066166,0.77,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+full,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.615301620066166,0.77,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+full,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.4394382418665919,0.77,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+full,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.4394382418665919,0.77,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+full,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.4394382418665919,0.77,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+full,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.4394382418665919,0.77,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+full,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4953745799550476,0.77,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+full,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4953745799550476,0.77,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+full,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4953745799550476,0.77,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+full,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4953745799550476,0.77,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+full,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4953745799550476,0.77,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_judge,1,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.2822967028866211,0.79,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+no_judge,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.6862792095368301,0.79,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_judge,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.833063506104684,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_judge,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.833063506104684,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_judge,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.833063506104684,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_judge,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.833063506104684,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_judge,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.833063506104684,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_judge,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6648225858186683,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_judge,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6648225858186683,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_judge,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6648225858186683,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_judge,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6648225858186683,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_judge,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6648225858186683,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_judge,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7936153116432251,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_judge,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7936153116432251,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_judge,1,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,1,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,1,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,1,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,1,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.5711099036037921,0.79,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_judge,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.5711099036037921,0.79,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_judge,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.5711099036037921,0.79,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_judge,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.5711099036037921,0.79,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_judge,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.5711099036037921,0.79,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_judge,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.3523927168887895,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_judge,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.3523927168887895,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_judge,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.3523927168887895,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_judge,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.3523927168887895,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_judge,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4195013768786642,0.79,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_judge,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4195013768786642,0.79,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_judge,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4195013768786642,0.79,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_judge,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4195013768786642,0.79,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_judge,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4195013768786642,0.79,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_judge,1,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,1,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,1,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,1,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,1,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_mnli,1,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.5112231637492324,0.73,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+no_mnli,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7127766763572722,0.73,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_mnli,1,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,1,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,1,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,1,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,1,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.6628361146510792,0.73,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_mnli,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.6628361146510792,0.73,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_mnli,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.6628361146510792,0.73,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_mnli,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.6628361146510792,0.73,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_selfcheck,1,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7658238091772156,0.75,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+no_selfcheck,1,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7658238091772156,0.75,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+no_selfcheck,1,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.4250036788207513,0.75,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+no_selfcheck,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,1,489,when does closure of the ductus arteriosus occur,birth,At birth,True,False,0.7035957184447734,0.75,True,0.7610604763031006,0.035146232694387436,0.24915703624719754
+no_selfcheck,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8080178245717275,0.75,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_selfcheck,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8080178245717275,0.75,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_selfcheck,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8080178245717275,0.75,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_selfcheck,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8080178245717275,0.75,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_selfcheck,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.8080178245717275,0.75,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+no_selfcheck,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6601922312820401,0.75,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_selfcheck,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6601922312820401,0.75,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_selfcheck,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6601922312820401,0.75,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_selfcheck,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6601922312820401,0.75,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_selfcheck,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.6601922312820401,0.75,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+no_selfcheck,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7660332683680786,0.75,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+no_selfcheck,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7660332683680786,0.75,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+no_selfcheck,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7660332683680786,0.75,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+no_selfcheck,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7660332683680786,0.75,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+no_selfcheck,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7660332683680786,0.75,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+no_selfcheck,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7724689888205225,0.75,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_selfcheck,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.7724689888205225,0.75,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+no_selfcheck,1,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,1,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,1,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,1,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,1,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.574341374842657,0.75,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_selfcheck,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.574341374842657,0.75,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_selfcheck,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.574341374842657,0.75,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_selfcheck,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.574341374842657,0.75,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_selfcheck,1,260,what is the genus of a bald eagle,Haliaeetus,genus: Haliaeetus,True,False,0.574341374842657,0.75,True,0.5127941966056824,0.03965757042169571,0.008124658837914467
+no_selfcheck,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.38507805135515005,0.75,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_selfcheck,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.38507805135515005,0.75,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_selfcheck,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.38507805135515005,0.75,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_selfcheck,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.38507805135515005,0.75,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+no_selfcheck,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4403368344056179,0.75,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_selfcheck,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4403368344056179,0.75,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_selfcheck,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4403368344056179,0.75,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_selfcheck,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4403368344056179,0.75,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+no_selfcheck,1,708,a bond that the issuer has the right to pay off before its maturity date,callable,Callable bond,True,False,0.4403368344056179,0.75,True,0.1676049381494522,0.005663038697093725,0.008153102360665798
+judge_only,1,470,when was beowulf most likely composed when did it's events probably take place,700–1000 AD,Circa 700,False,True,0.7973052483052016,0.79,True,0.8771657347679138,0.013473758473992348,0.1491190770175308
+judge_only,1,470,when was beowulf most likely composed when did it's events probably take place,700–1000 AD,Circa 700,False,True,0.7973052483052016,0.79,True,0.8771657347679138,0.013473758473992348,0.1491190770175308
+judge_only,1,470,when was beowulf most likely composed when did it's events probably take place,700–1000 AD,Circa 700,False,True,0.7973052483052016,0.79,True,0.8771657347679138,0.013473758473992348,0.1491190770175308
+judge_only,1,470,when was beowulf most likely composed when did it's events probably take place,700–1000 AD,Circa 700,False,True,0.7973052483052016,0.79,True,0.8771657347679138,0.013473758473992348,0.1491190770175308
+judge_only,1,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,1,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,1,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,1,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,1,510,who sings it's my party and i cry if i want to,Lesley Gore,Leslie Gore,False,True,0.7934649758040906,0.79,True,0.9229338765144348,0.0326751209795475,0.012629878707230091
+judge_only,1,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,1,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,1,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,1,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,1,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,1,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7949825901538135,0.79,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+judge_only,1,797,where does a brisket come from on a cow,the breast or lower chest,the chest,False,True,0.7949825901538135,0.79,True,0.9142612814903259,0.02508704923093319,0.4067976934602484
+judge_only,1,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,1,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,1,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,1,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,1,527,who was the governor general of india when country became independent,"Louis Mountbatten, 1st Earl Mountbatten of Burma",Lord Mountbatten,False,True,0.7954007156193257,0.79,True,0.8921631574630737,0.02299642190337181,0.0072336881421506405
+judge_only,1,489,when does closure of the ductus arteriosus occur,birth,After birth,True,False,0.7670822620391846,0.79,True,0.4977587163448334,0.16458868980407715,0.9995772242546082
+judge_only,1,547,when did the united states acquired puerto rico,after the Spanish–American War in the 1898 Treaty of Paris,1898,False,True,0.7947408847510815,0.79,True,0.8670563697814941,0.026295576244592667,0.025945279747247696
+judge_only,1,547,when did the united states acquired puerto rico,after the Spanish–American War in the 1898 Treaty of Paris,1898,False,True,0.7947408847510815,0.79,True,0.8670563697814941,0.026295576244592667,0.025945279747247696
+judge_only,1,547,when did the united states acquired puerto rico,after the Spanish–American War in the 1898 Treaty of Paris,1898,False,True,0.7947408847510815,0.79,True,0.8670563697814941,0.026295576244592667,0.025945279747247696
+judge_only,1,547,when did the united states acquired puerto rico,after the Spanish–American War in the 1898 Treaty of Paris,1898,False,True,0.7947408847510815,0.79,True,0.8670563697814941,0.026295576244592667,0.025945279747247696
+judge_only,1,547,when did the united states acquired puerto rico,after the Spanish–American War in the 1898 Treaty of Paris,1898,False,True,0.7947408847510815,0.79,True,0.8670563697814941,0.026295576244592667,0.025945279747247696
+judge_only,1,495,when was the first season of when calls the heart,"January 11, 2014",2014,False,True,0.7948626633733511,0.79,True,0.8288013935089111,0.025686683133244514,0.02672799490392208
+judge_only,1,495,when was the first season of when calls the heart,"January 11, 2014",2014,False,True,0.7948626633733511,0.79,True,0.8288013935089111,0.025686683133244514,0.02672799490392208
+judge_only,1,495,when was the first season of when calls the heart,"January 11, 2014",2014,False,True,0.7948626633733511,0.79,True,0.8288013935089111,0.025686683133244514,0.02672799490392208
+judge_only,1,495,when was the first season of when calls the heart,"January 11, 2014",2014,False,True,0.7948626633733511,0.79,True,0.8288013935089111,0.025686683133244514,0.02672799490392208
+judge_only,1,495,when was the first season of when calls the heart,"January 11, 2014",2014,False,True,0.7948626633733511,0.79,True,0.8288013935089111,0.025686683133244514,0.02672799490392208
+judge_only,1,14,how many seasons of from dusk till dawn are there,third season,3,False,True,0.7958435438573361,0.79,True,0.8650137186050415,0.02078228071331978,0.015133385546505451
+judge_only,1,14,how many seasons of from dusk till dawn are there,third season,3,False,True,0.7958435438573361,0.79,True,0.8650137186050415,0.02078228071331978,0.015133385546505451
+judge_only,1,14,how many seasons of from dusk till dawn are there,third season,3,False,True,0.7958435438573361,0.79,True,0.8650137186050415,0.02078228071331978,0.015133385546505451
+judge_only,1,14,how many seasons of from dusk till dawn are there,third season,3,False,True,0.7958435438573361,0.79,True,0.8650137186050415,0.02078228071331978,0.015133385546505451
+judge_only,1,14,how many seasons of from dusk till dawn are there,third season,3,False,True,0.7958435438573361,0.79,True,0.8650137186050415,0.02078228071331978,0.015133385546505451
+judge_only,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.7989575168117882,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+judge_only,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.7989575168117882,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+judge_only,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.7989575168117882,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+judge_only,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.7989575168117882,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+judge_only,1,546,when did the battle of badr take place,"Tuesday, 13 March 624 CE",624 CE,False,True,0.7989575168117882,0.79,True,0.9545781016349792,0.005212415941059589,0.008694855496287346
+judge_only,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.7848242938518525,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+judge_only,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.7848242938518525,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+judge_only,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.7848242938518525,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+judge_only,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.7848242938518525,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+judge_only,1,774,when did we first put a rover on mars,January 2004,2004,True,False,0.7848242938518525,0.79,True,0.7667309045791626,0.07587853074073792,0.038325101137161255
+judge_only,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7987740851938725,0.79,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+judge_only,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7987740851938725,0.79,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+judge_only,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7987740851938725,0.79,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+judge_only,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7987740851938725,0.79,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+judge_only,1,315,where is the bread plate located in a formal setting,to the left of the dinner plate,On the left,False,True,0.7987740851938725,0.79,True,0.9672970771789551,0.006129574030637741,0.0013985109981149435
+judge_only,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.79969800056424,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+judge_only,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20th,False,True,0.79969800056424,0.79,True,0.9703647494316101,0.001509997178800404,0.0036004056746605784
+judge_only,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20,False,True,0.7995584358926863,0.79,True,0.9575425386428833,0.002207820536568761,0.006109546171501279
+judge_only,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20,False,True,0.7995584358926863,0.79,True,0.9575425386428833,0.002207820536568761,0.006109546171501279
+judge_only,1,123,when is the president sworn into office (date and time of an odd or even year),at noon on the 20th day of January,January 20,False,True,0.7995584358926863,0.79,True,0.9575425386428833,0.002207820536568761,0.006109546171501279
+judge_only,1,591,who did the united states win its independence from,the British Empire,Great Britain,False,True,0.7976455627009273,0.79,True,0.8285126090049744,0.011772186495363712,0.037251755595207214
+judge_only,1,591,who did the united states win its independence from,the British Empire,Great Britain,False,True,0.7976455627009273,0.79,True,0.8285126090049744,0.011772186495363712,0.037251755595207214
+judge_only,1,591,who did the united states win its independence from,the British Empire,Great Britain,False,True,0.7976455627009273,0.79,True,0.8285126090049744,0.011772186495363712,0.037251755595207214
+judge_only,1,591,who did the united states win its independence from,the British Empire,Great Britain,False,True,0.7976455627009273,0.79,True,0.8285126090049744,0.011772186495363712,0.037251755595207214
+judge_only,1,591,who did the united states win its independence from,the British Empire,Great Britain,False,True,0.7976455627009273,0.79,True,0.8285126090049744,0.011772186495363712,0.037251755595207214
+judge_only,1,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,1,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,1,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,1,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,1,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,1,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,1,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,1,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,1,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,1,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,1,649,where does the microchip go in a dog,usually inserted below the skin at the back of the neck between the shoulder blades on the dorsal midline,under skin,False,True,0.7974506944417954,0.79,True,0.9327694177627563,0.012746527791023254,0.046948885661549866
+judge_only,1,649,where does the microchip go in a dog,usually inserted below the skin at the back of the neck between the shoulder blades on the dorsal midline,under skin,False,True,0.7974506944417954,0.79,True,0.9327694177627563,0.012746527791023254,0.046948885661549866
+judge_only,1,649,where does the microchip go in a dog,usually inserted below the skin at the back of the neck between the shoulder blades on the dorsal midline,under skin,False,True,0.7974506944417954,0.79,True,0.9327694177627563,0.012746527791023254,0.046948885661549866
+judge_only,1,649,where does the microchip go in a dog,usually inserted below the skin at the back of the neck between the shoulder blades on the dorsal midline,under skin,False,True,0.7974506944417954,0.79,True,0.9327694177627563,0.012746527791023254,0.046948885661549866
+judge_only,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.7876203417778016,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+judge_only,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.7876203417778016,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+judge_only,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.7876203417778016,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+judge_only,1,675,when did hootie and the blowfish come out,1986,formed in 1986,True,False,0.7876203417778016,0.79,True,0.27162349224090576,0.06189829111099243,0.05894038530823309
+full,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.47268029734492306,0.77,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+full,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.47268029734492306,0.77,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+full,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.47268029734492306,0.77,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+full,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.47268029734492306,0.77,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+full,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.47268029734492306,0.77,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+full,2,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.653952388005952,0.77,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+full,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.77,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+full,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.77,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+full,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.77,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+full,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.77,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+full,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.77,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+full,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.779903533711719,0.77,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+full,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.779903533711719,0.77,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+full,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.779903533711719,0.77,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+full,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.779903533711719,0.77,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+full,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.779903533711719,0.77,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+full,2,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,2,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,2,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,2,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,2,97,when did martial law in the philippines end,81,1981,True,False,0.686758096111007,0.77,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+full,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.2932422010600567,0.77,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+full,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.2932422010600567,0.77,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+full,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.2932422010600567,0.77,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+full,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.2932422010600567,0.77,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+full,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.2932422010600567,0.77,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+full,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5882978661358357,0.77,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+full,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5882978661358357,0.77,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+full,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5882978661358357,0.77,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+full,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5882978661358357,0.77,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+full,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5882978661358357,0.77,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_judge,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.3978973736986518,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_judge,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.3978973736986518,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_judge,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.3978973736986518,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_judge,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.3978973736986518,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_judge,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.3978973736986518,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_judge,2,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,2,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,2,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,2,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,2,555,what emperor took over france after the reign of terror,Napoleon Bonaparte,Napoleon,True,False,0.7812346134412413,0.79,True,0.8862029910087585,0.03803742304444313,0.02369503118097782
+no_judge,2,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.6209079542973388,0.79,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+no_judge,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_judge,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_judge,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_judge,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_judge,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_judge,2,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,2,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,2,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,2,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,2,603,who is credited with the discovery of the neutron,James Chadwick,Chadwick,True,False,0.7763359242739777,0.79,True,0.8826876282691956,0.040886685252189636,0.018525302410125732
+no_judge,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.7852054496256944,0.79,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_judge,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.7852054496256944,0.79,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_judge,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.7852054496256944,0.79,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_judge,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.7852054496256944,0.79,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_judge,2,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,2,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,2,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,2,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,2,97,when did martial law in the philippines end,81,1981,True,False,0.6586935549101327,0.79,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_judge,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.1805725848302245,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_judge,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.1805725848302245,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_judge,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.1805725848302245,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_judge,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.1805725848302245,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_judge,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.1805725848302245,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_judge,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5385606961324811,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_judge,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5385606961324811,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_judge,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5385606961324811,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_judge,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5385606961324811,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_judge,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.5385606961324811,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_mnli,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.43782723437656057,0.73,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_mnli,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.43782723437656057,0.73,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_mnli,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.43782723437656057,0.73,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_mnli,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.43782723437656057,0.73,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_mnli,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.43782723437656057,0.73,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_mnli,2,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.5934024865428605,0.73,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+no_mnli,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.73,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_mnli,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.73,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_mnli,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.73,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_mnli,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.73,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_mnli,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.73,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_mnli,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.71396690792771,0.73,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_mnli,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.71396690792771,0.73,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_mnli,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.71396690792771,0.73,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_mnli,2,354,what kind of national legislature did the constitution created,bicameral Congress,Bicameral,True,False,0.71396690792771,0.73,True,0.9271330237388611,0.029968690127134323,0.2569352970458567
+no_mnli,2,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,2,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,2,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,2,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,2,97,when did martial law in the philippines end,81,1981,True,False,0.46871734317392105,0.73,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_mnli,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.5790507297624241,0.73,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_mnli,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.5790507297624241,0.73,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_mnli,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.5790507297624241,0.73,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_mnli,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.5790507297624241,0.73,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_mnli,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.5790507297624241,0.73,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_mnli,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.4554303362965583,0.73,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_mnli,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.4554303362965583,0.73,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_mnli,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.4554303362965583,0.73,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_mnli,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.4554303362965583,0.73,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_mnli,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.4554303362965583,0.73,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_selfcheck,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.4213230164514648,0.75,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_selfcheck,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.4213230164514648,0.75,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_selfcheck,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.4213230164514648,0.75,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_selfcheck,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.4213230164514648,0.75,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_selfcheck,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.4213230164514648,0.75,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+no_selfcheck,2,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.707164457095442,0.75,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+no_selfcheck,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.75,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_selfcheck,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.75,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_selfcheck,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.75,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_selfcheck,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.75,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_selfcheck,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.75,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+no_selfcheck,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7559724279696605,0.75,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+no_selfcheck,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7559724279696605,0.75,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+no_selfcheck,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7559724279696605,0.75,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+no_selfcheck,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7559724279696605,0.75,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+no_selfcheck,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7559724279696605,0.75,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+no_selfcheck,2,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,2,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,2,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,2,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,2,97,when did martial law in the philippines end,81,1981,True,False,0.6539120830854194,0.75,True,0.9616141319274902,0.00491869542747736,0.01664404757320881
+no_selfcheck,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.22164335068729193,0.75,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_selfcheck,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.22164335068729193,0.75,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_selfcheck,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.22164335068729193,0.75,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_selfcheck,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.22164335068729193,0.75,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_selfcheck,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.22164335068729193,0.75,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+no_selfcheck,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.546746807710992,0.75,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_selfcheck,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.546746807710992,0.75,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_selfcheck,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.546746807710992,0.75,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_selfcheck,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.546746807710992,0.75,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+no_selfcheck,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.546746807710992,0.75,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+judge_only,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.7718119919300079,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+judge_only,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.7718119919300079,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+judge_only,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.7718119919300079,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+judge_only,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.7718119919300079,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+judge_only,2,304,where did the rulers of the qing dynasty originate,Manchuria,Manchu,True,False,0.7718119919300079,0.79,True,0.7548765540122986,0.14094004034996033,0.03691616654396057
+judge_only,2,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,2,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,2,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,2,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,2,172,papayas were suffering from what pathogen on the big island of hawaii,Papaya ringspot virus (PRSV),Papaya Ringspot Virus,True,False,0.7875087551772595,0.79,True,0.8960593938827515,0.062456224113702774,0.03054133430123329
+judge_only,2,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,2,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,2,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,2,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,2,395,who sang the end of the world as we know it,R.E.M.,REM,True,False,0.7849523097276688,0.79,True,0.8302835822105408,0.07523845136165619,0.060371581465005875
+judge_only,2,254,who does the civil rights act of 1964 protect,all Americans,Protects individuals,False,True,0.7937512416392565,0.79,True,0.1356046199798584,0.031243791803717613,0.0016368001233786345
+judge_only,2,254,who does the civil rights act of 1964 protect,all Americans,Protects individuals,False,True,0.7937512416392565,0.79,True,0.1356046199798584,0.031243791803717613,0.0016368001233786345
+judge_only,2,254,who does the civil rights act of 1964 protect,all Americans,Protects individuals,False,True,0.7937512416392565,0.79,True,0.1356046199798584,0.031243791803717613,0.0016368001233786345
+judge_only,2,254,who does the civil rights act of 1964 protect,all Americans,Protects individuals,False,True,0.7937512416392565,0.79,True,0.1356046199798584,0.031243791803717613,0.0016368001233786345
+judge_only,2,254,who does the civil rights act of 1964 protect,all Americans,Protects individuals,False,True,0.7937512416392565,0.79,True,0.1356046199798584,0.031243791803717613,0.0016368001233786345
+judge_only,2,799,india's first arctic research station set up in 2008 what is the name,Himadri Station,Himadri,True,False,0.7861301228404045,0.79,True,0.8458517789840698,0.06934938579797745,0.8110863566398621
+judge_only,2,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,2,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,2,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,2,197,where does the red wolf live in the world,the southeastern United States,North Carolina,False,True,0.7942476123571396,0.79,True,0.030755968764424324,0.028761938214302063,0.3995644524693489
+judge_only,2,584,how many times have the winter olympics been in the usa since 1924,four,4,False,True,0.7982994144782425,0.79,True,0.9412561058998108,0.008502927608788013,0.04148814082145691
+judge_only,2,584,how many times have the winter olympics been in the usa since 1924,four,4,False,True,0.7982994144782425,0.79,True,0.9412561058998108,0.008502927608788013,0.04148814082145691
+judge_only,2,584,how many times have the winter olympics been in the usa since 1924,four,4,False,True,0.7982994144782425,0.79,True,0.9412561058998108,0.008502927608788013,0.04148814082145691
+judge_only,2,584,how many times have the winter olympics been in the usa since 1924,four,4,False,True,0.7982994144782425,0.79,True,0.9412561058998108,0.008502927608788013,0.04148814082145691
+judge_only,2,584,how many times have the winter olympics been in the usa since 1924,four,4,False,True,0.7982994144782425,0.79,True,0.9412561058998108,0.008502927608788013,0.04148814082145691
+judge_only,2,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,2,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,2,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,2,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,2,567,in which country were the two battles of el alamein fought,the Egyptian railway halt of El Alamein,Egypt,False,True,0.7934296168386936,0.79,True,0.8128756284713745,0.032851915806531906,0.010523504577577114
+judge_only,2,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,554,how many episodes in game if thrones season 7,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+judge_only,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+judge_only,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+judge_only,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+judge_only,2,517,what is the number of cities in texas,961,9,True,False,0.0,0.79,False,0.022064408287405968,0.9655041694641113,0.06452205777168274
+judge_only,2,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,2,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,2,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,2,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,2,651,where is south pole located on a map,on the continent of Antarctica,Antarctica,False,True,0.7973299644887448,0.79,True,0.9308547377586365,0.013350177556276321,0.02178497239947319
+judge_only,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7996040100231767,0.79,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+judge_only,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7996040100231767,0.79,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+judge_only,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7996040100231767,0.79,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+judge_only,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7996040100231767,0.79,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+judge_only,2,99,what is the source of electrons during photosynthesis,"suitable substances, such as water",Water,False,True,0.7996040100231767,0.79,True,0.9753326773643494,0.0019799498841166496,0.004320524632930756
+judge_only,2,182,who wrote and performed i can only imagine,Christian rock band MercyMe,MercyMe,False,True,0.7960959766060114,0.79,True,0.9393472671508789,0.019520116969943047,0.012844409793615341
+judge_only,2,182,who wrote and performed i can only imagine,Christian rock band MercyMe,MercyMe,False,True,0.7960959766060114,0.79,True,0.9393472671508789,0.019520116969943047,0.012844409793615341
+judge_only,2,182,who wrote and performed i can only imagine,Christian rock band MercyMe,MercyMe,False,True,0.7960959766060114,0.79,True,0.9393472671508789,0.019520116969943047,0.012844409793615341
+judge_only,2,182,who wrote and performed i can only imagine,Christian rock band MercyMe,MercyMe,False,True,0.7960959766060114,0.79,True,0.9393472671508789,0.019520116969943047,0.012844409793615341
+judge_only,2,182,who wrote and performed i can only imagine,Christian rock band MercyMe,MercyMe,False,True,0.7960959766060114,0.79,True,0.9393472671508789,0.019520116969943047,0.012844409793615341
+judge_only,2,764,what is the number of basic units in the international system of units,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,764,what is the number of basic units in the international system of units,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,764,what is the number of basic units in the international system of units,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,764,what is the number of basic units in the international system of units,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,764,what is the number of basic units in the international system of units,seven,7,False,True,0.7988166498951614,0.79,True,0.9502915143966675,0.0059167505241930485,0.013296827673912048
+judge_only,2,654,what is most likely cause of algal blooms,"an excess of nutrients, particularly some phosphates",Nutrient pollution,False,True,0.7983336392790079,0.79,True,0.39482182264328003,0.008331803604960442,0.002996808150783181
+judge_only,2,654,what is most likely cause of algal blooms,"an excess of nutrients, particularly some phosphates",Nutrient pollution,False,True,0.7983336392790079,0.79,True,0.39482182264328003,0.008331803604960442,0.002996808150783181
+judge_only,2,654,what is most likely cause of algal blooms,"an excess of nutrients, particularly some phosphates",Nutrient pollution,False,True,0.7983336392790079,0.79,True,0.39482182264328003,0.008331803604960442,0.002996808150783181
+judge_only,2,654,what is most likely cause of algal blooms,"an excess of nutrients, particularly some phosphates",Nutrient pollution,False,True,0.7983336392790079,0.79,True,0.39482182264328003,0.008331803604960442,0.002996808150783181
+judge_only,2,654,what is most likely cause of algal blooms,"an excess of nutrients, particularly some phosphates",Nutrient pollution,False,True,0.7983336392790079,0.79,True,0.39482182264328003,0.008331803604960442,0.002996808150783181
+judge_only,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.7439206659793854,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+judge_only,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.7439206659793854,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+judge_only,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.7439206659793854,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+judge_only,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.7439206659793854,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+judge_only,2,528,when was the first mad max movie release,1979,Mad Max (1979),True,False,0.7439206659793854,0.79,True,0.067110076546669,0.2803966701030731,0.006288811564445496
+judge_only,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.7872465461492539,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+judge_only,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.7872465461492539,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+judge_only,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.7872465461492539,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+judge_only,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.7872465461492539,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058
+judge_only,2,733,who is covering the winter olympics in canada,CBC/Radio-Canada,CBC,True,False,0.7872465461492539,0.79,True,0.8590958714485168,0.06376726925373077,0.024989154189825058

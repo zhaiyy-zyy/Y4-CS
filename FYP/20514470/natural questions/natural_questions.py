@@ -1,0 +1,2184 @@
+import os
+import ssl
+import csv
+import json
+import re
+import time
+import html
+import numpy as np
+import torch
+import torch.nn.functional as F
+from tqdm import tqdm
+from datasets import load_dataset
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from selfcheckgpt.modeling_selfcheck import SelfCheckNLI
+import ollama
+
+
+# CONFIG
+# Files 
+ANSWER_CACHE_FILE = "nq_answers_cache.csv"
+
+OUT_JSON_FILE = "nq_paper_overall_summary.json"
+OUT_CSV_FILE = "nq_paper_overall_summary.csv"
+
+ERROR_CASES_FILE = "nq_paper_error_cases.csv"
+MAX_ERROR_LOGS_PER_MODE = 200
+
+MITI_CASES_FILE = "nq_mitigation_cases.csv"
+MAX_CASES_PER_RUN = 500
+
+THRESHOLD_CURVE_CSV  = "threshold_curve.csv"
+
+# Sampling 
+SEED = 42
+N_SAMPLES = 3
+
+SUBSET_SIZE = 800
+POOL_SIZE = 800
+VAL_RATIO = 0.2
+
+NUM_RUNS = 3
+SAMPLE_SIZE = 200
+
+# Ollama 
+GEN_MODEL = "llama2:7b"
+JUDGE_MODEL = "qwen2.5:7b-instruct"
+
+# NLI models 
+DETECTOR_NLI_MODEL = "roberta-large-mnli"
+
+GOLD_NLI_CANDIDATES = [
+    "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+]
+
+# Scoring weights 
+W_JUDGE = 0.20
+W_FACT = 0.45
+W_SC = 0.10
+W_LEX = 0.25
+
+FACT_CONTRA_ALPHA = 1.5
+
+# Mitigation 
+MITI_K = 10
+
+COUNT_EMPTY_AS_ABSTAIN = False
+ABSTAIN_IF_STILL_RISKY = False
+
+#TUNE_T_HIGH = True
+TUNE_T_HIGH = False
+VAL_TUNE_MAX_Q = 150
+TUNE_W_ABSTAIN = 0.10
+TUNE_W_REGRESS = 0.50
+
+PROTECT_BASE_MARGIN = 0.03
+MIN_IMPROVEMENT = 0.02
+
+ABSTAIN_PENALTY = 0.05
+ABSTAIN_ADVANTAGE = 0.08
+KEEP_BASE_HIGH_CONF = 0.50
+
+REL_CONTRA_THR = 0.50
+REL_ENTAIL_THR = 0.50
+
+# NQ extraction 
+MIN_REF_WORDS = 1
+MAX_REF_WORDS = 20
+ALLOW_LONG_ANSWER_FALLBACK = False  
+
+# Repro 
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print("Device:", device)
+
+
+
+# Utilities
+def ensure_csv_header(path, fieldnames):
+    if not os.path.exists(path):
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            csv.DictWriter(f, fieldnames=fieldnames).writeheader()
+
+
+def safe_mean(xs):
+    return float(np.mean(xs)) if xs else 0.0
+
+
+def safe_std(xs, ddof=0):
+    return float(np.std(xs, ddof=ddof)) if xs else 0.0
+
+
+def load_cache_answers(path):
+    cache = {}
+    if not os.path.exists(path):
+        return cache
+    with open(path, "r", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            q = r.get("question", "")
+            a = r.get("answer", "")
+            if q and a:
+                cache.setdefault(q, []).append(a)
+    return cache
+
+
+def append_cache_answers(path, rows):
+    with open(path, "a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["question", "answer"])
+        for row in rows:
+            w.writerow(row)
+
+
+def normalize_text(x):
+    if x is None:
+        return ""
+    if isinstance(x, str):
+        return x.strip()
+    if isinstance(x, list) and len(x) > 0:
+        return str(x[0]).strip()
+    return str(x).strip()
+
+
+def normalize_question(q):
+    if isinstance(q, str):
+        return q.strip()
+    if isinstance(q, dict):
+        t = q.get("text", None)
+        if isinstance(t, str):
+            return t.strip()
+        if isinstance(t, list) and len(t) > 0:
+            return str(t[0]).strip()
+    if isinstance(q, list) and len(q) > 0:
+        return normalize_question(q[0])
+    return str(q).strip()
+
+def is_abstain_answer(ans: str):
+    return False
+
+def compute_nei_and_abstain(answer_text: str):
+    return False, False
+
+def parse_final_answer_text(answer_text: str):
+    if not answer_text:
+        return ""
+
+    text = str(answer_text).strip()
+
+    # Prioritize extracting the content after "FINAL_ANSWER".
+    m = re.search(
+        r"FINAL_ANSWER\s*:\s*(.+)",
+        text,
+        flags=re.IGNORECASE | re.DOTALL
+    )
+    if m:
+        ans = m.group(1).strip()
+    else:
+        ans = text.strip()
+
+    # If there are other paragraphs following, only take the first line.
+    ans = ans.splitlines()[0].strip()
+
+    # Remove common junk placeholders
+    ans = re.sub(r'^["\']?<\s*span\s+from\s+context\s*>["\']?\s*', '', ans, flags=re.I)
+    ans = re.sub(r'^["\']?<\s*exact\s+copied\s+span\s*>["\']?\s*', '', ans, flags=re.I)
+    ans = re.sub(r'^["\']?<\s*span\s*>["\']?\s*', '', ans, flags=re.I)
+    ans = re.sub(r'^\bspan from context\b\s*', '', ans, flags=re.I)
+
+    ans = ans.strip().strip('"').strip("'").strip()
+    return ans
+
+
+def final_clean_output(ans: str):
+    ans = parse_final_answer_text(ans)
+
+    if not ans:
+        return ""
+
+    ans = ans.strip()
+    ans = re.sub(r"\s+", " ", ans)
+    ans = re.sub(r"[.。]+$", "", ans).strip()
+    return ans
+
+def compress_to_short_answer(ans: str):
+    if not ans:
+        return ""
+
+    ans = final_clean_output(ans)
+    words = ans.split()
+
+    if len(words) <= 3:
+        return ans
+
+    # Prioritize keeping the last three words.
+    tail3 = " ".join(words[-3:])
+    tail2 = " ".join(words[-2:])
+
+    # If the last two words contain a preposition, prefer a three-word structure.
+    bad_starts = {"of", "in", "on", "at", "for", "to", "by", "with"}
+    if len(words) >= 3 and words[-2].lower() in bad_starts:
+        return tail3
+
+    return tail2
+
+def is_bad_answer(ans: str):
+    x = final_clean_output(ans).lower()
+
+    if not x:
+        return True
+
+    bad_set = {
+        "content", "context", "answer", "final_answer",
+        "unknown", "span", "the answer", "answer:", "content:",
+        "not found", "none", "n/a"
+    }
+
+    if x in bad_set:
+        return True
+
+    if len(x) <= 1 and not x.isdigit():
+        return True
+
+    return False
+
+
+def fallback_span_from_context(context: str, question: str = "", max_words=8):
+    toks = [t for t in context.split() if t.strip()]
+    if not toks:
+        return ""
+
+    # heuristic
+    q_words = set(question.lower().split())
+
+    for i in range(len(toks)):
+        if toks[i].lower() in q_words:
+            start = max(0, i - 3)
+            end = min(len(toks), i + max_words)
+            return " ".join(toks[start:end])
+
+    # fallback: take the middle section
+    mid = len(toks) // 2
+    return " ".join(toks[mid: mid + max_words])
+
+def clean_nq_token(tok: str) -> str:
+    if tok is None:
+        return ""
+    tok = html.unescape(str(tok))
+    tok = tok.strip()
+
+    if not tok:
+        return ""
+    if tok.startswith("<") and tok.endswith(">"):
+        return ""
+    if tok in {"[HTML]", "[DOC]", "[PAR]", "[TLE]", "[SEP]"}:
+        return ""
+    return tok
+
+def get_local_context(context, answer, window_chars=200):
+    ans = final_clean_output(answer)
+
+    if not ans:
+        return context[:400]
+
+    pos = context.lower().find(ans.lower())
+
+    if pos == -1:
+        return context[:400]
+
+    start = max(0, pos - window_chars)
+    end = min(len(context), pos + len(ans) + window_chars)
+
+    return context[start:end]
+
+def clean_reference_text(ref: str) -> str:
+    if not ref:
+        return ""
+    ref = html.unescape(ref)
+    ref = ref.replace(" - ", "-")
+    ref = re.sub(r"\s+", " ", ref).strip()
+
+    # Remove pure punctuation / meaningless quotations
+    if not ref:
+        return ""
+    if len(ref) <= 1 and not ref.isdigit():
+        return ""
+    return ref
+
+def extract_raw_doc_tokens(item):
+    doc = item.get("document_text", "")
+    if isinstance(doc, str) and doc.strip():
+        return doc.split()
+
+    doc_tokens = item.get("document_tokens", None)
+    if isinstance(doc_tokens, list) and len(doc_tokens) > 0:
+        out = []
+        for t in doc_tokens:
+            if isinstance(t, dict):
+                out.append(str(t.get("token", "")))
+            else:
+                out.append(str(t))
+        return out
+
+    return []
+
+def extract_doc_tokens(item):
+    raw_tokens = extract_raw_doc_tokens(item)
+    tokens = [clean_nq_token(t) for t in raw_tokens]
+    tokens = [t for t in tokens if t]
+    return tokens
+
+def verbalize_reference(question: str, ref: str) -> str:
+    return ref  
+
+# Load dataset + subset
+
+print("\nLoading Natural Questions (local subset)...")
+
+raw_dataset = load_dataset(
+    "json",
+    data_files="nq_subset.json"
+)["train"]
+
+print("Dataset loaded:", len(raw_dataset))
+
+
+
+# Extract usable references from Natural Questions
+
+def extract_reference_from_nq_item(item):
+    ann_raw = item.get("annotations", None)
+    if ann_raw is None:
+        return ""
+
+    if isinstance(ann_raw, list):
+        anns = ann_raw
+    elif isinstance(ann_raw, dict):
+        anns = [ann_raw]
+    else:
+        return ""
+
+    raw_tokens = extract_raw_doc_tokens(item)
+
+    # 1) short_answers.text
+    for ann in anns:
+        short_answers = ann.get("short_answers", [])
+        if isinstance(short_answers, list):
+            for sa in short_answers:
+                if isinstance(sa, dict) and "text" in sa:
+                    txt = normalize_text(sa["text"])
+                    txt = clean_reference_text(txt)
+                    if txt and txt != "[]":
+                        words = txt.split()
+                        if len(words) >= MIN_REF_WORDS:
+                            return " ".join(words[:MAX_REF_WORDS])
+
+    # 2) short_answers token span
+    if len(raw_tokens) > 0:
+        for ann in anns:
+            short_answers = ann.get("short_answers", [])
+            if isinstance(short_answers, list):
+                for sa in short_answers:
+                    if not isinstance(sa, dict):
+                        continue
+
+                    start = sa.get("start_token", None)
+                    end = sa.get("end_token", None)
+
+                    if start is None or end is None:
+                        continue
+                    if not isinstance(start, int) or not isinstance(end, int):
+                        continue
+                    if not (0 <= start < end <= len(raw_tokens)):
+                        continue
+
+                    span_tokens = raw_tokens[start:end]
+                    span_tokens = [clean_nq_token(t) for t in span_tokens]
+                    span_tokens = [t for t in span_tokens if t]
+
+                    ref = " ".join(span_tokens)
+                    ref = clean_reference_text(ref)
+
+                    if ref and ref != "[]":
+                        words = ref.split()
+                        if len(words) >= MIN_REF_WORDS:
+                            return " ".join(words[:MAX_REF_WORDS])
+
+    # 3) yes/no
+    for ann in anns:
+        yes_no = ann.get("yes_no_answer", "NONE")
+        if yes_no in ["YES", "NO"]:
+            return yes_no
+
+    # 4) optional long answer fallback
+    if ALLOW_LONG_ANSWER_FALLBACK and len(raw_tokens) > 0:
+        for ann in anns:
+            long_ans = ann.get("long_answer", {})
+            if not isinstance(long_ans, dict):
+                continue
+
+            start = long_ans.get("start_token", None)
+            end = long_ans.get("end_token", None)
+
+            if start is None or end is None:
+                continue
+            if not isinstance(start, int) or not isinstance(end, int):
+                continue
+            if not (0 <= start < end <= len(raw_tokens)):
+                continue
+
+            span_tokens = raw_tokens[start:end]
+            span_tokens = [clean_nq_token(t) for t in span_tokens]
+            span_tokens = [t for t in span_tokens if t]
+
+            ref = " ".join(span_tokens)
+            ref = clean_reference_text(ref)
+
+            if ref and ref != "[]":
+                words = ref.split()
+                if len(words) >= MIN_REF_WORDS:
+                    return " ".join(words[:MAX_REF_WORDS])
+
+    return ""
+
+
+# Filter dataset for usable references
+
+def build_context_around_answer(tokens, ref, window_tokens=200):
+    ref_tokens = ref.lower().split()
+    toks_lower = [t.lower() for t in tokens]
+
+    hit = -1
+    for i in range(len(toks_lower) - len(ref_tokens) + 1):
+        if toks_lower[i:i + len(ref_tokens)] == ref_tokens:
+            hit = i
+            break
+
+    if hit == -1:
+        # Fallback: keep the first part of the context to prevent the sample from being dropped
+        return " ".join(tokens[:600])
+
+    start = max(0, hit - window_tokens)
+    end = min(len(tokens), hit + len(ref_tokens) + window_tokens)
+    return " ".join(tokens[start:end])
+
+valid_items = []
+
+for item in tqdm(raw_dataset, desc="Filtering NQ for valid refs"):
+    ref = extract_reference_from_nq_item(item)
+    q = normalize_question(item.get("question", ""))
+
+    if q and ref and ref != "[]":
+        tokens = extract_doc_tokens(item)
+        context = build_context_around_answer(tokens, ref)
+
+        valid_items.append({
+            "question": q,
+            "raw_reference": ref,
+            "reference": ref,
+            "ref_sentence": verbalize_reference(q, ref),
+            "context": context
+        })
+
+print("Valid items with usable references:", len(valid_items))
+
+if len(valid_items) == 0:
+    raise RuntimeError(
+        "No valid NQ items were extracted. "
+        "Please check extract_reference_from_nq_item() and the dataset structure."
+    )
+
+
+# Debug check
+
+print("\nExample extracted references:\n")
+for i in range(min(5, len(valid_items))):
+    print("Q:", valid_items[i]["question"])
+    print("REF:", valid_items[i]["reference"])
+    print()
+
+# some reference statistics
+ref_lens = [len(x["reference"].split()) for x in valid_items]
+print("Reference length stats:")
+print("  mean words:", round(float(np.mean(ref_lens)), 2))
+print("  min words :", int(np.min(ref_lens)))
+print("  max words :", int(np.max(ref_lens)))
+
+# Create subset for experiments
+
+
+rng = np.random.RandomState(SEED)
+subset_size = min(SUBSET_SIZE, len(valid_items))
+subset_idx = rng.choice(len(valid_items), size=subset_size, replace=False).tolist()
+subset = [valid_items[i] for i in subset_idx]
+
+print("Final subset size:", len(subset))
+
+if len(subset) == 0:
+    raise RuntimeError("Subset is empty after sampling.")
+
+
+
+# Load NLI models
+
+
+def load_nli_model(model_name):
+    tok = AutoTokenizer.from_pretrained(model_name)
+    mdl = AutoModelForSequenceClassification.from_pretrained(model_name).to(device)
+    mdl.eval()
+    return tok, mdl
+
+
+print("\nLoading DETECTOR NLI model:", DETECTOR_NLI_MODEL)
+det_tok, det_nli = load_nli_model(DETECTOR_NLI_MODEL)
+
+gold_tok, gold_nli = None, None
+print("\nLoading GOLD NLI model with fallback...")
+for cand in GOLD_NLI_CANDIDATES:
+    try:
+        print("  trying:", cand)
+        gold_tok, gold_nli = load_nli_model(cand)
+        print("  -> loaded GOLD:", cand)
+        break
+    except Exception as e:
+        print("  failed:", cand, "|", str(e)[:140])
+
+if gold_tok is None:
+    raise RuntimeError("Failed to load any GOLD NLI model candidates.")
+
+
+@torch.no_grad()
+def nli_ent_con(tok, mdl, premise, hypothesis):
+    if not premise or not hypothesis:
+        return 0.0, 0.0
+
+    inputs = tok(
+        premise,
+        hypothesis,
+        return_tensors="pt",
+        truncation=True,
+        padding=True,
+        max_length=256
+    ).to(device)
+
+    probs = F.softmax(mdl(**inputs).logits, dim=-1)[0].detach().cpu().numpy()
+    # contradiction=0, neutral=1, entailment=2
+    return float(probs[2]), float(probs[0])
+
+
+def detector_mnli_signal(reference: str, answer: str):
+    if not reference or not answer:
+        return 0.0, 0.0
+    return nli_ent_con(det_tok, det_nli, reference, answer)
+
+
+def gold_contradiction_prob(reference_text: str, answer: str):
+    _, con = nli_ent_con(gold_tok, gold_nli, reference_text, answer)
+    return float(con)
+
+
+def normalize_answer(s: str) -> str:
+    s = s.lower().strip()
+    s = re.sub(r"[^\w\s]", "", s)
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+def exact_match(a: str, b: str) -> bool:
+    return normalize_answer(a) == normalize_answer(b)
+
+def token_f1(a: str, b: str) -> float:
+    a_tokens = normalize_answer(a).split()
+    b_tokens = normalize_answer(b).split()
+
+    if len(a_tokens) == 0 or len(b_tokens) == 0:
+        return 0.0
+
+    common = {}
+    for t in a_tokens:
+        common[t] = common.get(t, 0) + 1
+
+    overlap = 0
+    for t in b_tokens:
+        if common.get(t, 0) > 0:
+            overlap += 1
+            common[t] -= 1
+
+    if overlap == 0:
+        return 0.0
+
+    precision = overlap / len(a_tokens)
+    recall = overlap / len(b_tokens)
+    return 2 * precision * recall / (precision + recall)
+
+def nq_gold_ok(answer, reference):
+    if not answer or not reference:
+        return False
+
+    answer_norm = normalize_answer(answer)
+    ref_norm = normalize_answer(reference)
+
+    if not answer_norm or not ref_norm:
+        return False
+
+    if answer_norm in {"notfound", "none", "unknown"}:
+        return False
+
+    refs = [ref_norm]
+    if " or " in ref_norm:
+        refs = [x.strip() for x in ref_norm.split(" or ") if x.strip()]
+
+    for r in refs:
+        # 1) exact
+        if answer_norm == r:
+            return True
+
+        # 2) Bidirectional substring matching, applied only to short reference answers
+        if len(r.split()) <= 2:
+            if r in answer_norm or answer_norm in r:
+                return True
+
+        # 3) token F1
+        if len(r.split()) >= 3:
+            if token_f1(answer_norm, r) >= 0.8:
+                return True
+        else:
+            if token_f1(answer_norm, r) >= 0.7:
+                return True
+
+    return False
+
+def relation_from_ent_con(ent, con):
+    if con >= REL_CONTRA_THR:
+        return "contradict"
+    elif ent >= REL_ENTAIL_THR:
+        return "entailed"
+    else:
+        return "neutral"
+
+
+# SelfCheckGPT-NLI
+
+print("\nLoading SelfCheckGPT-NLI...")
+selfcheck = SelfCheckNLI(device=device)
+
+
+def _extract_reasonish_text(ans: str) -> str:
+    if not ans:
+        return ""
+    m = re.search(
+        r"^\s*FINAL_ANSWER\s*:\s*(.+?)\s*$",
+        ans,
+        re.IGNORECASE | re.MULTILINE
+    )
+    if m:
+        return m.group(1).strip()
+    parts = [p.strip() for p in re.split(r"[.\n]", ans) if p.strip()]
+    return parts[0] if parts else ans.strip()
+
+
+def selfcheck_group(answers):
+    if len(answers) < 2:
+        return 0.0
+
+    snippets = []
+    for a in answers:
+        s = _extract_reasonish_text(a)
+        if s:
+            snippets.append(s)
+
+    if len(snippets) < 2:
+        return 0.0
+
+    all_scores = []
+
+    for i in range(len(snippets)):
+        sent = snippets[i]
+        others = snippets[:i] + snippets[i+1:]
+
+        if not others:
+            continue
+
+        scores = selfcheck.predict(
+            sentences=[sent],
+            sampled_passages=others
+        )
+
+        if len(scores):
+            all_scores.extend(list(scores))
+
+    return float(np.mean(all_scores)) if all_scores else 0.0
+
+
+# Ollama helpers
+
+def ollama_chat_retry(model, messages, options, max_tries=3, sleep_s=0.8):
+    last_err = None
+    for _ in range(max_tries):
+        try:
+            return ollama.chat(model=model, messages=messages, options=options)
+        except Exception as e:
+            last_err = e
+            time.sleep(sleep_s)
+    raise last_err
+
+
+
+# Judge
+
+def judge_truth(question: str, answer: str, reference: str) -> bool:
+    prompt = f"""
+You are a strict factuality evaluator for Natural Questions short-answer evaluation.
+
+- Minor wording differences are acceptable
+- Partial match is acceptable if core meaning matches
+
+Mark True if:
+- The model answer contains the reference answer or its exact meaning,
+- AND it contains no false or contradictory statements.
+
+Extra correct information is allowed and should NOT cause False.
+
+Mark False if:
+- the answer misses the reference meaning,
+- OR contains any factual error or contradiction.
+
+Question: {question}
+Reference Answer: {reference}
+Model Answer: {answer}
+
+Respond with exactly one token: True or False.
+"""
+    try:
+        resp = ollama_chat_retry(
+            model=JUDGE_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            options={"temperature": 0.0},
+            max_tries=2
+        )
+        return resp["message"]["content"].strip().lower().startswith("true")
+    except Exception:
+        return False
+
+
+# Answer generation + cache
+
+ensure_csv_header(ANSWER_CACHE_FILE, ["question", "answer"])
+answer_cache = load_cache_answers(ANSWER_CACHE_FILE)
+
+def ensure_answers(question: str, context: str, n_samples: int):
+    cur = answer_cache.get(question, [])
+    if len(cur) >= n_samples:
+        return cur[:n_samples]
+
+    new_rows = []
+    tries = 0
+    max_tries = max(10, n_samples * 5)
+
+    while len(cur) < n_samples and tries < max_tries:
+        tries += 1
+        ans = generate_base_extractive_answer(question, context)
+        ans = final_clean_output(ans)
+
+        if not is_bad_answer(ans):
+            cur.append(ans)
+            new_rows.append({"question": question, "answer": ans})
+
+    if not cur:
+        fb = fallback_span_from_context(context, question)
+        if fb:
+            cur.append(fb)
+            new_rows.append({"question": question, "answer": fb})
+
+    if new_rows:
+        append_cache_answers(ANSWER_CACHE_FILE, new_rows)
+
+    answer_cache[question] = cur
+    return cur[:n_samples]
+
+
+# Scoring
+
+def fact_score_from_ent_con(ent: float, con: float) -> float:
+    return float(max(ent - FACT_CONTRA_ALPHA * con, 0.0))
+
+
+def mode_score(sc, judge_ok, ent, con, lexical, mode):
+    judge_score = 0.8 if judge_ok else 0.0
+    sc_score = 1.0 - float(sc)
+    fact_score = fact_score_from_ent_con(float(ent), float(con))
+    lexical_score = float(lexical) * (1.0 - float(con))
+
+    wj, wf, ws, wl = W_JUDGE, W_FACT, W_SC, W_LEX
+
+    if mode == "full":
+        score = (
+            wj * judge_score +
+            wf * fact_score +
+            ws * sc_score +
+            wl * lexical_score  
+        )
+
+    elif mode == "no_judge":
+        score = (
+            wf * fact_score +
+            ws * sc_score +
+            wl * lexical_score
+        ) / (wf + ws + wl)
+
+    elif mode == "no_mnli":
+        score = (
+            wj * judge_score +
+            ws * sc_score +
+            wl * lexical_score
+        ) / (wj + ws + wl)
+
+    elif mode == "no_selfcheck":
+        score = (
+            wj * judge_score +
+            wf * fact_score +
+            wl * lexical_score
+        ) / (wj + wf + wl)
+
+    elif mode == "judge_only":
+        score = judge_score
+
+    else:
+        raise ValueError(f"Unknown mode: {mode}")
+
+    # penalty
+    score = score - 0.2 * float(con)
+    score = max(0.0, min(1.0, score))
+
+    return float(score)
+
+
+def score_single_answer_full(question, reference, ref_sentence, answer_text, sc_override=None):
+    answer_for_eval = parse_final_answer_text(answer_text)
+    judge_ok = judge_truth(question, answer_for_eval, reference)
+    ent, con = detector_mnli_signal(ref_sentence, answer_for_eval)
+    lexical = token_f1(answer_for_eval, reference)
+    sc = float(sc_override) if sc_override is not None else 0.0
+
+    ok_score = mode_score(
+        sc=sc,
+        judge_ok=judge_ok,
+        ent=ent,
+        con=con,
+        lexical=lexical,
+        mode="full"
+    )
+
+    return ok_score, {
+        "judge_ok": judge_ok,
+        "ent": float(ent),
+        "con": float(con),
+        "sc": float(sc)
+    }
+
+# Mitigation
+
+def build_extractive_prompt(question, context):
+    return f"""
+You are a short-answer QA system.
+
+Question:
+{question}
+
+Context:
+{context}
+
+Rules:
+- Answer using only information from the Context
+- Return the SHORTEST correct short answer
+- Prefer 1-3 words
+- Do NOT return a sentence
+- Do NOT explain
+- Do NOT include extra context
+
+Output exactly one line:
+FINAL_ANSWER:
+"""
+
+def generate_base_extractive_answer(question, context):
+    try:
+        resp = ollama_chat_retry(
+            model=GEN_MODEL,
+            messages=[{"role": "user", "content": build_extractive_prompt(question, context)}],
+            options={"temperature": 0.0},
+            max_tries=2
+        )
+        raw = resp["message"]["content"].strip()
+
+        ans = final_clean_output(raw)
+        ans = compress_to_short_answer(ans)
+
+        if is_bad_answer(ans):
+            ans = fallback_span_from_context(context, question)
+            ans = compress_to_short_answer(ans)
+
+        return ans
+
+    except Exception:
+        return compress_to_short_answer(fallback_span_from_context(context, question))
+    
+STOPWORDS = {
+    "the", "a", "an", "is", "are", "was", "were", "be", "been",
+    "do", "does", "did", "of", "to", "in", "on", "at", "for",
+    "with", "and", "or", "by", "from", "as",
+    "what", "when", "where", "who", "which", "why", "how"
+}
+
+def extract_topk_spans_by_overlap(context, question, max_words=15, topk=10):
+    ctx_tokens = context.split()
+    q_words = {
+        w for w in normalize_answer(question).split()
+        if w not in STOPWORDS
+    }
+
+    cand_scores = []
+
+    for i in range(len(ctx_tokens)):
+        for j in range(i + 1, min(i + max_words + 1, len(ctx_tokens) + 1)):
+            span = ctx_tokens[i:j]
+            span_text = " ".join(span).strip()
+            if not span_text:
+                continue
+
+            score = sum(1 for w in span if normalize_answer(w) in q_words)
+
+            score = score - 0.05 * max(0, len(span) - 3)
+
+            cand_scores.append((score, span_text))
+
+    cand_scores.sort(key=lambda x: x[0], reverse=True)
+
+    seen = set()
+    out = []
+    for score, span in cand_scores:
+        norm = normalize_answer(span)
+        if norm in seen:
+            continue
+        seen.add(norm)
+        out.append(span)
+        if len(out) >= topk:
+            break
+
+    return out
+
+def generate_candidate_extractive_answers(question, context, K=10):
+    return extract_topk_spans_by_overlap(
+        context,
+        question,
+        max_words=15,
+        topk=K
+    )
+
+def generate_rewrite_answer(question, context):
+    prompt = f"""
+Answer the question using the context.
+
+Return ONLY a short answer (1-5 words).
+
+Question:
+{question}
+
+Context:
+{context}
+
+FINAL_ANSWER:
+"""
+    try:
+        resp = ollama_chat_retry(
+            model=GEN_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            options={"temperature": 0.7},
+            max_tries=2
+        )
+        ans = final_clean_output(resp["message"]["content"])
+        ans = compress_to_short_answer(ans)
+        return ans
+    except:
+        return ""
+    
+def generate_candidate_extractive_answer(question, context):
+    spans = generate_candidate_extractive_answers(question, context, K=1)
+    return spans[0] if spans else ""
+
+
+# Candidate filter + rerank
+
+def _filter_candidates(question, candidates, context):
+    kept = []
+
+    for c in candidates:
+        if not c or not str(c).strip():
+            continue
+
+        ans = final_clean_output(c)
+        if not ans:
+            continue
+
+        if len(ans.split()) > 20:
+            continue
+
+        # extractive answer 
+        if is_span_in_context(ans, context):
+            kept.append(ans)
+            continue
+
+        # rewrite answer
+        if len(ans.split()) <= 5:
+            kept.append(ans)
+
+    return kept
+
+
+def normalize_span_text(x: str):
+    x = str(x).lower().strip()
+    x = re.sub(r"\s+", " ", x)
+    x = re.sub(r"[^\w\s-]", "", x)
+    return x
+
+
+def is_span_in_context(answer, context):
+    ans = normalize_span_text(final_clean_output(answer))
+    ctx = normalize_span_text(context)
+
+    if not ans:
+        return False
+
+    return ans in ctx
+
+def _group_by_label(candidates):
+    return {
+        "ANSWER": [final_clean_output(c) for c in candidates if final_clean_output(c)]
+    }
+
+
+def detector_conditioned_correct(
+    question, reference, ref_sentence, base_answer,
+    context,
+    t_low_ok, t_high_ok,
+    K=10,
+    abstain_threshold=None,
+    base_sc=0.0
+):
+    base_answer = final_clean_output(base_answer)
+
+    if abstain_threshold is None:
+        abstain_threshold = float(t_low_ok)
+
+    base_ok, _ = score_single_answer_full(
+        question, reference, ref_sentence, base_answer, sc_override=base_sc
+    )
+
+    if base_ok >= max(t_high_ok, 0.75):
+        return final_clean_output(base_answer), base_ok, "keep_high_conf", base_ok
+
+    if base_ok >= max(t_low_ok + PROTECT_BASE_MARGIN, KEEP_BASE_HIGH_CONF):
+        return final_clean_output(base_answer), base_ok, "protect_base", base_ok
+
+    raw_cands = generate_candidate_extractive_answers(question, context, K=K)
+
+    for _ in range(3):
+        rewrite = generate_rewrite_answer(question, context)
+        rewrite = compress_to_short_answer(rewrite)
+
+        if rewrite:
+            raw_cands.append(rewrite)
+        
+    if base_ok < 0.3:
+
+        best_ans = base_answer
+        best_ok = base_ok
+
+        for c in raw_cands:
+            peer_answers = [x for x in raw_cands if x != c]
+            sc_c = selfcheck_one_answer(c, peer_answers)
+
+            okc, _ = score_single_answer_full(
+                question, reference, ref_sentence, c, sc_override=sc_c
+            )
+            if okc > best_ok:
+                best_ok = okc
+                best_ans = c
+
+        return final_clean_output(best_ans), float(best_ok), "force_extract_rerank", float(base_ok)
+
+    dedup = []
+    seen = set()
+    for c in raw_cands:
+        norm = normalize_answer(c)
+        if norm and norm not in seen:
+            seen.add(norm)
+            dedup.append(c)
+    raw_cands = dedup
+
+    if base_ok >= t_low_ok:
+        tag = f"mid_mix_K{K}"
+    else:
+        tag = f"strict_mix_K{K}"
+
+    if not raw_cands:
+        return final_clean_output(base_answer), base_ok, f"{tag}_all_fail_keep", base_ok
+
+    filtered = _filter_candidates(question, raw_cands, context)
+    if not filtered:
+        filtered = raw_cands
+
+    groups = _group_by_label(filtered)
+
+    best_group_label = None
+    best_group_best_ok = -1.0
+    best_group_best_ans = None
+
+    for lbl, cands in groups.items():
+        if not cands:
+            continue
+
+        local_best_ans = base_answer
+        base_peer = [x for x in cands if x != base_answer]
+        base_sc_local = selfcheck_one_answer(base_answer, base_peer)
+
+        local_best_ok, _ = score_single_answer_full(
+            question,
+            reference,
+            ref_sentence,
+            base_answer,
+            sc_override=base_sc_local
+        )
+        for ai in cands:
+            peer_answers = [x for x in cands if x != ai]
+            sc_i = selfcheck_one_answer(ai, peer_answers)
+
+            oki, _ = score_single_answer_full(
+                question,
+                reference,
+                ref_sentence,
+                ai,
+                sc_override=sc_i
+            )
+
+            if oki > local_best_ok:
+                local_best_ok = oki
+                local_best_ans = ai
+
+        if local_best_ok > best_group_best_ok:
+            best_group_best_ok = local_best_ok
+            best_group_best_ans = local_best_ans
+            best_group_label = lbl
+
+    if best_group_best_ans is None:
+        return final_clean_output(base_answer), base_ok, f"{tag}_no_group_keep", base_ok
+
+    best_ans = final_clean_output(best_group_best_ans)
+    best_ans = compress_to_short_answer(best_ans)
+    best_ok = best_group_best_ok
+    action = f"{tag}_group={best_group_label}_sc_rerank"
+
+    if best_ok < base_ok - 0.01:
+        best_ans = final_clean_output(base_answer)
+        best_ok = base_ok
+        action = f"{action}_keep_base"
+
+    return final_clean_output(best_ans), best_ok, action, base_ok
+
+# Build pool
+
+print("\nBuilding question pool...")
+rng = np.random.RandomState(SEED)
+pool_size = min(POOL_SIZE, len(subset))
+pool_q_idxs = rng.choice(len(subset), size=pool_size, replace=False).tolist()
+rng.shuffle(pool_q_idxs)
+
+val_n = int(len(pool_q_idxs) * VAL_RATIO)
+val_q_idxs = pool_q_idxs[:val_n]
+test_q_idxs = pool_q_idxs[val_n:]
+
+print(f"Pool size: {len(pool_q_idxs)} | val questions: {len(val_q_idxs)} | test questions: {len(test_q_idxs)}")
+
+if len(val_q_idxs) == 0 or len(test_q_idxs) == 0:
+    raise RuntimeError(
+        f"Invalid split: val={len(val_q_idxs)}, test={len(test_q_idxs)}. "
+        "Please increase valid subset size or check reference extraction."
+    )
+
+
+def selfcheck_one_answer(answer, peer_answers):
+    base = _extract_reasonish_text(answer)
+    others = [_extract_reasonish_text(x) for x in peer_answers if _extract_reasonish_text(x)]
+
+    if not base or len(others) == 0:
+        return 0.0
+
+    try:
+        scores = selfcheck.predict(
+            sentences=[base],
+            sampled_passages=others
+        )
+        if len(scores):
+            return float(np.mean(scores))
+    except Exception:
+        return 0.0
+
+    return 0.0
+
+
+def build_question_pack(q_idx: int):
+    item = subset[int(q_idx)]
+    q = item["question"]
+    ref = item["reference"]
+    raw_ref = item["raw_reference"]
+
+    answers = ensure_answers(q, item["context"], N_SAMPLES)
+    if not answers:
+        answers = [fallback_span_from_context(item["context"], q)]
+
+    per_answer = []
+    sc_values = []
+
+    for i, ans in enumerate(answers):
+        others = answers[:i] + answers[i+1:]
+        sc_i = selfcheck_one_answer(ans, others) if others else 0.0
+        sc_values.append(sc_i)
+
+        ans_eval = final_clean_output(ans)
+
+        gold_ok = nq_gold_ok(ans_eval, ref)
+        judge_ok = judge_truth(q, ans_eval, ref)
+        ent, con = detector_mnli_signal(item["ref_sentence"], ans_eval)
+
+        per_answer.append({
+            "answer": ans,
+            "gold_ok": bool(gold_ok),
+            "judge_ok": bool(judge_ok),
+            "ent": float(ent),
+            "con": float(con),
+            "sc": float(sc_i),
+        })
+
+    sc_question = float(np.mean(sc_values)) if sc_values else 0.0
+
+    return {
+        "q_idx": int(q_idx),
+        "q": q,
+        "ref": ref,
+        "raw_ref": raw_ref,
+        "ref_sentence": item["ref_sentence"],
+        "context": item.get("context", ""),
+        "answers": answers,
+        "sc": sc_question,
+        "per_answer": per_answer
+    }
+
+
+print("\nPrecomputing VAL + TEST packs (slow due to Ollama)...")
+val_packs = [build_question_pack(i) for i in tqdm(val_q_idxs, desc="VAL packs")]
+test_packs = [build_question_pack(i) for i in tqdm(test_q_idxs, desc="TEST packs")]
+
+print("\nSanity check on VAL labels...")
+val_gold_oks = []
+for pack in val_packs:
+    if len(pack["per_answer"]) == 0:
+        continue
+    for a in pack["per_answer"]:
+        val_gold_oks.append(bool(a["gold_ok"]))
+
+print("  total VAL answers:", len(val_gold_oks))
+print("  gold_ok count    :", int(np.sum(val_gold_oks)))
+print("  gold_halluc count:", int(len(val_gold_oks) - np.sum(val_gold_oks)))
+
+
+# Detection eval + threshold tuning
+
+def eval_on_packs(packs, mode, threshold, run_id=0, log_errors_path=None, max_log=0):
+    tp = fp = tn = fn = 0
+    all_scores = []
+    q_stds = []
+
+    error_logged = 0
+    if log_errors_path:
+        ensure_csv_header(log_errors_path, [
+            "mode", "run", "q_idx", "question", "reference",
+            "answer", "gold_ok", "pred_ok", "score", "threshold",
+            "judge_ok", "ent", "con", "selfcheck"
+        ])
+
+    for pack in packs:
+        scores_this_q = []
+
+        for a in pack["per_answer"]:
+            lexical = token_f1(
+                parse_final_answer_text(a["answer"]),
+                pack["ref"]
+            )
+
+            score = mode_score(
+                sc=a.get("sc", pack["sc"]),
+                judge_ok=a["judge_ok"],
+                ent=a["ent"],
+                con=a["con"],
+                lexical=lexical,
+                mode=mode
+            )
+
+            pred_ok = (score >= threshold)
+            gold_ok = a["gold_ok"]
+
+            pred_halluc = not pred_ok
+            gold_halluc = not gold_ok
+
+            all_scores.append(score)
+            scores_this_q.append(score)
+
+            if pred_halluc and gold_halluc:
+                tp += 1
+            elif pred_halluc and not gold_halluc:
+                fp += 1
+            elif (not pred_halluc) and (not gold_halluc):
+                tn += 1
+            else:
+                fn += 1
+
+            if log_errors_path and error_logged < max_log and (pred_ok != gold_ok):
+                with open(log_errors_path, "a", newline="", encoding="utf-8") as f:
+                    w = csv.DictWriter(f, fieldnames=[
+                        "mode", "run", "q_idx", "question", "reference",
+                        "answer", "gold_ok", "pred_ok", "score", "threshold",
+                        "judge_ok", "ent", "con", "selfcheck"
+                    ])
+                    w.writerow({
+                        "mode": mode,
+                        "run": run_id,
+                        "q_idx": pack["q_idx"],
+                        "question": pack["q"],
+                        "reference": pack["ref"],
+                        "answer": a["answer"],
+                        "gold_ok": gold_ok,
+                        "pred_ok": pred_ok,
+                        "score": score,
+                        "threshold": threshold,
+                        "judge_ok": a["judge_ok"],
+                        "ent": a["ent"],
+                        "con": a["con"],
+                        "selfcheck": a.get("sc", pack["sc"])
+                    })
+                error_logged += 1
+
+        q_stds.append(float(np.std(scores_this_q)) if len(scores_this_q) > 1 else 0.0)
+
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
+
+    return {
+        "precision": float(precision),
+        "recall": float(recall),
+        "f1": float(f1),
+        "answer_score_std": float(np.std(all_scores)) if all_scores else 0.0,
+        "question_score_std": float(np.mean(q_stds)) if q_stds else 0.0
+    }
+
+
+def tune_threshold_on_val(val_packs, mode, grid=None):
+    if grid is None:
+        grid = np.linspace(0.0, 1.0, 101)
+
+    scores = []
+    golds = []
+
+    for pack in val_packs:
+        for a in pack["per_answer"]:
+            scores.append(
+                mode_score(
+                    a.get("sc", pack["sc"]),
+                    a["judge_ok"],
+                    a["ent"],
+                    a["con"],
+                    token_f1(parse_final_answer_text(a["answer"]), pack["ref"]),
+                    mode
+                )
+            )
+            golds.append(a["gold_ok"])
+
+    scores = np.array(scores, dtype=np.float32)
+    golds = np.array(golds, dtype=np.bool_)
+
+    # gold_halluc = not gold_ok
+    gold_halluc = ~golds
+
+    if len(scores) == 0:
+        return 0.5, 0.0
+
+    best_t = 0.5
+    best_f1 = -1.0
+
+    for t in grid:
+        pred_ok = scores >= t
+        pred_halluc = ~pred_ok
+
+        tp = np.sum(pred_halluc & gold_halluc)
+        fp = np.sum(pred_halluc & (~gold_halluc))
+        fn = np.sum((~pred_halluc) & gold_halluc)
+
+        p = tp / (tp + fp) if (tp + fp) else 0.0
+        r = tp / (tp + fn) if (tp + fn) else 0.0
+        f1 = (2 * p * r / (p + r)) if (p + r) else 0.0
+
+        if f1 > best_f1:
+            best_f1 = float(f1)
+            best_t = float(t)
+
+    return best_t, best_f1
+
+
+# Mitigation eval
+
+def always_extract_correct(question, reference, ref_sentence, base_answer, context="", K=1):
+    base_answer = final_clean_output(base_answer)
+
+    raw = generate_candidate_extractive_answers(question, context, K=K)
+    if not raw:
+        return base_answer, 0.0
+
+    filtered = _filter_candidates(question, raw, context)
+    if not filtered:
+        filtered = raw
+
+    best_score = -1.0
+    best_ans = base_answer
+
+    base_peer = [x for x in filtered if x != base_answer]
+    base_sc = selfcheck_one_answer(base_answer, base_peer)  
+
+    base_score, _ = score_single_answer_full(
+        question,
+        reference,
+        ref_sentence,
+        base_answer,
+        sc_override=base_sc
+    )
+
+    best_score = base_score
+    best_ans = base_answer
+
+    for ai in filtered:
+        ai = final_clean_output(ai)
+        if not ai:
+            continue
+
+        peer_answers = [x for x in filtered if x != ai]
+        sc_i = selfcheck_one_answer(ai, peer_answers)
+
+        score, _ = score_single_answer_full(
+            question,
+            reference,
+            ref_sentence,
+            ai,
+            sc_override=sc_i
+        )
+
+        if score > best_score:
+            best_score = score
+            best_ans = ai
+
+    return final_clean_output(best_ans), float(best_score)
+
+def eval_mitigation_on_packs(
+    packs, policy_name, t_low_ok, t_high_ok, K=10,
+    run_id=0, log_cases_path=None, max_log=0,
+    abstain_threshold=None
+):
+    total = 0
+    em_cnt = 0
+    base_em_cnt = 0
+    
+    base_gold_ok_cnt = 0
+
+    gold_ok_cnt = 0
+
+    improve_cnt = 0
+    regress_cnt = 0
+
+    valid_answer_cnt = 0  
+    valid_gold_ok_cnt = 0
+
+    base_ok_scores = []
+    final_ok_scores = []
+    actions = {}
+
+    if log_cases_path:
+        ensure_csv_header(log_cases_path, [
+            "case_keep",
+            "run", "policy", "q_idx", "question", 
+            "reference","raw_reference",
+            "base_answer", "final_answer",
+            "base_ok_score", "final_ok_score", "delta_ok_score",
+            "base_gold_ok", "final_gold_ok",
+            "base_ent", "base_con",
+            "final_ent", "final_con",
+            "base_vs_reference",
+            "final_vs_reference",
+            "improvement_type",
+            "action"
+        ])
+
+    logged = 0
+
+    for pack in packs:
+        q = pack["q"]
+        ref = pack["ref"]
+        q_idx = pack.get("q_idx", -1)
+
+        ref_sentence = pack["ref_sentence"]
+        context = pack.get("context", "")
+
+        base_answer = pack["per_answer"][0]["answer"] if pack["per_answer"] else ""
+
+        base_sc = pack["per_answer"][0].get("sc", 0.0) if pack["per_answer"] else 0.0
+        base_ok, _ = score_single_answer_full(
+            q, ref, ref_sentence, base_answer, sc_override=base_sc
+        )
+
+        base_gold_ok = nq_gold_ok(parse_final_answer_text(base_answer), ref)
+        base_clean = parse_final_answer_text(base_answer)
+
+        if exact_match(base_clean, ref):
+            base_em_cnt += 1
+
+
+        base_gold_ok_cnt += (1 if base_gold_ok else 0)
+
+    
+        if policy_name == "base":
+            final_answer = base_answer
+            final_ok = base_ok
+            action = "base_keep"
+        elif policy_name == "extract_once":
+            final_answer, final_ok = always_extract_correct(
+                q, ref, ref_sentence, base_answer, context=context, K=1
+            )
+            action = "extract_once"
+        elif policy_name == "extract_K":
+            final_answer, final_ok = always_extract_correct(
+                q, ref, ref_sentence, base_answer, context=context, K=K
+            )
+            action = f"extract_K{K}_detector_rerank"
+        elif policy_name == "detector_conditioned_extract":
+            context = pack.get("context", "")
+            final_answer, _, action, base_ok = detector_conditioned_correct(
+                q, ref, ref_sentence, base_answer,
+                context=context,
+                t_low_ok=t_low_ok,
+                t_high_ok=t_high_ok,
+                K=K,
+                base_sc=base_sc   
+            )
+        else:
+            raise ValueError(f"Unknown mitigation policy: {policy_name}")
+        
+        final_gold_ok = nq_gold_ok(parse_final_answer_text(final_answer), ref)
+        final_clean = parse_final_answer_text(final_answer)
+
+        peer_answers = pack["answers"] 
+        peer_answers = [x for x in peer_answers if x != final_answer]
+
+        final_sc = selfcheck_one_answer(final_answer, peer_answers)
+
+        final_ok, _ = score_single_answer_full(
+            q, ref, ref_sentence, final_answer, sc_override=final_sc
+        )
+        
+        if exact_match(final_clean, ref):
+            em_cnt += 1
+
+        valid_answer_cnt += 1
+        if final_gold_ok:
+            valid_gold_ok_cnt += 1
+
+
+        base_clean_answer = parse_final_answer_text(base_answer)
+        final_clean_answer = parse_final_answer_text(final_answer)
+
+        ref_sentence = pack.get("ref_sentence", ref)
+
+        base_ent, base_con = detector_mnli_signal(ref_sentence, base_clean_answer)
+        final_ent, final_con = detector_mnli_signal(ref_sentence, final_clean_answer)
+        
+        base_vs_reference = relation_from_ent_con(base_ent, base_con)
+        final_vs_reference = relation_from_ent_con(final_ent, final_con)
+
+        if (not base_gold_ok) and final_gold_ok:
+            improvement_type = "fixed"
+        elif base_gold_ok and (not final_gold_ok):
+            improvement_type = "regressed"
+        elif (not base_gold_ok) and (not final_gold_ok):
+            improvement_type = "still_wrong"
+        else:
+            improvement_type = "already_correct"    
+
+        case_keep = (
+            (improvement_type == "fixed") or
+            (
+                (base_vs_reference == "contradict" and final_vs_reference in ["neutral", "entailed"]) or
+                (base_vs_reference == "neutral" and final_vs_reference == "entailed")
+            )
+        )           
+
+        total += 1
+        gold_ok_cnt += (1 if final_gold_ok else 0)
+
+        if (not base_gold_ok) and final_gold_ok:
+            improve_cnt += 1
+        if base_gold_ok and (not final_gold_ok):
+            regress_cnt += 1
+
+        base_ok_scores.append(base_ok)
+        final_ok_scores.append(final_ok)
+        actions[action] = actions.get(action, 0) + 1
+
+        if log_cases_path and logged < max_log:
+            with open(log_cases_path, "a", newline="", encoding="utf-8") as f:
+                w = csv.DictWriter(f, fieldnames=[
+                    "case_keep",
+                    "run", "policy", "q_idx", "question", 
+                    "reference","raw_reference",
+                    "base_answer", "final_answer",
+                    "base_ok_score", "final_ok_score", "delta_ok_score",
+                    "base_gold_ok", "final_gold_ok",
+                    "base_ent", "base_con",
+                    "final_ent", "final_con",
+                    "base_vs_reference",
+                    "final_vs_reference",
+                    "improvement_type",
+                    "action"
+                ])
+                w.writerow({
+                    "case_keep": int(case_keep),
+                    "run": run_id,
+                    "policy": policy_name,
+                    "q_idx": q_idx,
+                    "question": q,
+                    "reference": ref,
+                    "raw_reference": pack.get("raw_ref", ""),
+                    "base_answer": base_answer,
+                    "final_answer": final_answer,
+                    "base_ok_score": float(base_ok),
+                    "final_ok_score": float(final_ok),
+                    "delta_ok_score": float(final_ok - base_ok),
+                    "base_gold_ok": bool(base_gold_ok),
+                    "final_gold_ok": bool(final_gold_ok),
+                    "base_ent": float(base_ent),
+                    "base_con": float(base_con),
+                    "final_ent": float(final_ent),
+                    "final_con": float(final_con),
+                    "base_vs_reference": base_vs_reference,
+                    "final_vs_reference": final_vs_reference,
+                    "improvement_type": improvement_type,
+                    "action": action
+                })
+            logged += 1
+
+    base_gold_ok_rate = base_gold_ok_cnt / total if total else 0.0
+    base_halluc_rate = 1.0 - base_gold_ok_rate
+   
+    final_gold_ok_rate = gold_ok_cnt / total if total else 0.0
+    final_halluc_rate = 1.0 - final_gold_ok_rate
+
+    base_ok_mean = float(np.mean(base_ok_scores)) if base_ok_scores else 0.0
+    final_ok_mean = float(np.mean(final_ok_scores)) if final_ok_scores else 0.0
+    delta_ok_mean = float(
+        np.mean(np.array(final_ok_scores) - np.array(base_ok_scores))
+    ) if base_ok_scores else 0.0
+
+    filtered_gold_ok_rate = (
+        valid_gold_ok_cnt / valid_answer_cnt if valid_answer_cnt else 0.0
+    )
+    filtered_halluc_rate = 1.0 - filtered_gold_ok_rate
+
+    valid_answer_rate = valid_answer_cnt / total if total else 0.0
+    base_em_rate = base_em_cnt / total if total else 0.0
+    final_em_rate = em_cnt / total if total else 0.0
+
+    return {
+        "policy": policy_name,
+        "n_questions": int(total),
+
+        "base_em_rate": float(base_em_rate),
+        "final_em_rate": float(final_em_rate),
+
+        "base_gold_ok_rate": float(base_gold_ok_rate),
+        "base_halluc_rate": float(base_halluc_rate),
+
+        "final_gold_ok_rate": float(final_gold_ok_rate),
+        "final_halluc_rate": float(final_halluc_rate),
+
+        "improve_rate": float(improve_cnt / total) if total else 0.0,
+        "regress_rate": float(regress_cnt / total) if total else 0.0,
+
+        "filtered_gold_ok_rate": float(filtered_gold_ok_rate),
+        "filtered_halluc_rate": float(filtered_halluc_rate),
+        "valid_answer_rate": float(valid_answer_rate),
+
+        "base_ok_score_mean": base_ok_mean,
+        "final_ok_score_mean": final_ok_mean,
+        "delta_ok_score_mean": delta_ok_mean,
+
+        "action_counts": actions,
+        "paired": {
+            "improve_cnt": int(improve_cnt),
+            "regress_cnt": int(regress_cnt),
+        }
+    }
+
+
+# Threshold sweep 
+
+def sweep_threshold_curve(val_packs, t_low_ok, K=10, num_points=10):
+    hi_values = np.linspace(t_low_ok, min(0.95, t_low_ok + 0.25), num_points)
+
+    results = []
+
+    for hi in hi_values:
+        total = 0
+        halluc_cnt = 0
+        regress_cnt = 0
+
+        for pack in val_packs:
+            q = pack["q"]
+            ref = pack["ref"]
+            base_answer = pack["per_answer"][0]["answer"] if pack["per_answer"] else ""
+
+            ref_sentence = pack["ref_sentence"]
+
+            base_gold_ok = nq_gold_ok(parse_final_answer_text(base_answer), ref)
+
+            base_sc = pack["per_answer"][0].get("sc", 0.0)
+
+            final_answer, _, _, _ = detector_conditioned_correct(
+                q, ref, ref_sentence, base_answer,
+                context=pack.get("context", ""),
+                t_low_ok=t_low_ok,
+                t_high_ok=float(hi),
+                K=K,
+                base_sc=base_sc
+            )
+
+            final_gold_ok = nq_gold_ok(parse_final_answer_text(final_answer), ref)
+
+            total += 1
+
+            # hallucination
+            if not final_gold_ok:
+                halluc_cnt += 1
+
+            # regression
+            if base_gold_ok and (not final_gold_ok):
+                regress_cnt += 1
+
+        if total == 0:
+            continue
+
+        results.append({
+            "t_high": float(hi),
+            "halluc_rate": halluc_cnt / total,
+            "regress_rate": regress_cnt / total,
+        })
+
+    return results
+
+# Tune t_high
+
+def _select_val_for_tune(val_packs, max_q=None):
+    if max_q is None or max_q <= 0:
+        return val_packs
+    return val_packs[: min(max_q, len(val_packs))]
+
+
+def tune_t_high_on_val(val_packs_for_tune, t_low_ok, K, abstain_threshold):
+    hi_max = float(min(0.95, t_low_ok + 0.25))
+    grid = np.linspace(t_low_ok, hi_max, 11)
+
+    best_hi = float(min(0.95, t_low_ok + 0.05))
+    best_obj = 1e9
+    best_stats = None
+
+    for hi in grid:
+        total = 0
+        final_ok = 0
+        abstain_cnt = 0
+        regress_cnt = 0
+
+        for pack in val_packs_for_tune:
+            q = pack["q"]
+            ref = pack["ref"]
+            base_answer = pack["per_answer"][0]["answer"] if pack["per_answer"] else ""
+
+            ref_sentence = pack.get("ref_sentence", verbalize_reference(q, ref))
+            base_gold_ok = nq_gold_ok(parse_final_answer_text(base_answer), ref)
+
+            base_sc = pack["per_answer"][0].get("sc", 0.0) if pack["per_answer"] else 0.0
+
+            final_answer, _, _, _ = detector_conditioned_correct(
+                q, ref, ref_sentence, base_answer,
+                context=pack.get("context", ""),
+                t_low_ok=t_low_ok,
+                t_high_ok=float(hi),
+                K=K,
+                abstain_threshold=abstain_threshold,
+                base_sc=base_sc
+            )
+
+            final_gold_ok = nq_gold_ok(parse_final_answer_text(final_answer), ref)
+
+            total += 1
+            final_ok += (1 if final_gold_ok else 0)
+
+            if base_gold_ok and (not final_gold_ok):
+                regress_cnt += 1
+
+        if total == 0:
+            continue
+
+        final_ok_rate = final_ok / total
+        halluc_rate = 1.0 - final_ok_rate
+        regress_rate = regress_cnt / total
+
+        obj = halluc_rate + TUNE_W_REGRESS * regress_rate
+        
+        if obj < best_obj:
+            best_obj = obj
+            best_hi = float(hi)
+            best_stats = {
+                "halluc_rate": float(halluc_rate),
+                "regress_rate": float(regress_rate),
+                "final_ok_rate": float(final_ok_rate),
+            }
+
+    return best_hi, best_obj, best_stats
+
+
+# MAIN
+
+modes = ["full", "no_judge", "no_mnli", "no_selfcheck", "judge_only"]
+
+print("\nTuning threshold on VAL for each mode...")
+mode_thresholds = {}
+for m in modes:
+    t_star, f1_star = tune_threshold_on_val(val_packs, m)
+    mode_thresholds[m] = float(t_star)
+    print(f"  mode={m:12s} | best_thr={t_star:.2f} | val_F1={f1_star:.4f}")
+
+t_low_ok = float(mode_thresholds["full"])
+t_high_ok_default = float(min(0.95, t_low_ok + 0.03))
+abstain_threshold = float(max(0.30, t_low_ok - 0.05))
+t_high_ok_default = max(t_high_ok_default, t_low_ok)
+
+print(
+    f"\nMitigation thresholds (default): "
+    f"t_low_ok={t_low_ok:.3f}, t_high_ok={t_high_ok_default:.3f}, abstain_thr={abstain_threshold:.3f} | "
+    f"K={MITI_K}"
+)
+
+t_high_ok = t_high_ok_default
+if TUNE_T_HIGH:
+    val_for_tune = _select_val_for_tune(val_packs, max_q=VAL_TUNE_MAX_Q)
+    print(f"\nTuning t_high on VAL (n={len(val_for_tune)} questions) to reduce hallucination...")
+
+    if len(val_for_tune) == 0:
+        print("  skipped: val_for_tune is empty, keep default t_high_ok.")
+    else:
+        t_high_ok, best_obj, best_stats = tune_t_high_on_val(
+            val_packs_for_tune=val_for_tune,
+            t_low_ok=t_low_ok,
+            K=MITI_K,
+            abstain_threshold=abstain_threshold
+        )
+
+        if best_stats is None:
+            print("  skipped: no valid tuning stats produced, keep default t_high_ok.")
+            t_high_ok = t_high_ok_default
+        else:
+            print(
+                f"  tuned t_high_ok={t_high_ok:.3f} | obj={best_obj:.4f} | "
+                f"halluc={best_stats['halluc_rate']:.4f} "
+                f"regress={best_stats['regress_rate']:.4f}"
+            )
+
+print(
+    f"\nMitigation thresholds (FINAL): "
+    f"t_low_ok={t_low_ok:.3f}, t_high_ok={t_high_ok:.3f}, abstain_thr={abstain_threshold:.3f} | "
+    f"K={MITI_K}"
+)
+
+print("\nRunning paired Monte-Carlo on TEST...")
+rng = np.random.RandomState(SEED)
+
+summary = {m: [] for m in modes}
+miti_policies = ["base", "extract_once", "extract_K", "detector_conditioned_extract"]
+miti_summary = {p: [] for p in miti_policies}
+
+test_q_count = len(test_packs)
+if SAMPLE_SIZE > test_q_count:
+    raise ValueError(
+        f"SAMPLE_SIZE={SAMPLE_SIZE} > number of test questions={test_q_count}"
+    )
+
+for run_id in range(NUM_RUNS):
+    q_sel = rng.choice(test_q_count, size=SAMPLE_SIZE, replace=False)
+    packs_run = [test_packs[i] for i in q_sel]
+
+    # detection
+    for m in modes:
+        thr = mode_thresholds[m]
+        metrics = eval_on_packs(
+            packs_run,
+            mode=m,
+            threshold=thr,
+            run_id=run_id,
+            log_errors_path=ERROR_CASES_FILE,
+            max_log=MAX_ERROR_LOGS_PER_MODE
+        )
+        summary[m].append(metrics)
+
+    # mitigation
+    for p in miti_policies:
+        metrics = eval_mitigation_on_packs(
+            packs_run,
+            policy_name=p,
+            t_low_ok=t_low_ok,
+            t_high_ok=t_high_ok,
+            K=MITI_K,
+            run_id=run_id,
+            log_cases_path=MITI_CASES_FILE,
+            max_log=MAX_CASES_PER_RUN,
+            abstain_threshold=abstain_threshold
+        )
+        miti_summary[p].append(metrics)
+
+
+# Threshold Effect
+
+print("\nSweeping threshold ...")
+
+curve_data = sweep_threshold_curve(
+    val_packs,
+    t_low_ok=t_low_ok,
+    K=MITI_K,
+    num_points=12
+)
+print(f"Generated {len(curve_data)} threshold points")
+with open(THRESHOLD_CURVE_CSV, "w", newline="", encoding="utf-8") as f:
+    writer = csv.DictWriter(
+        f,
+        fieldnames=["t_high", "halluc_rate", "regress_rate"]
+    )
+    writer.writeheader()
+    writer.writerows(curve_data)
+
+print(f"\nSaved threshold curve to CSV: {THRESHOLD_CURVE_CSV}")
+
+
+# Final summaries
+
+print("\n=== FINAL SUMMARY (Detection) ===")
+print(f"{'mode':12s} | {'F1_mean':>8s} {'F1_std':>8s} | {'Q-std':>10s} | {'A-std':>10s} | {'thr*':>6s}")
+print("-" * 100)
+
+rows = []
+summary_json = {
+    "config": {
+        "SEED": SEED,
+        "N_SAMPLES": N_SAMPLES,
+        "SUBSET_SIZE": SUBSET_SIZE,
+        "POOL_SIZE": POOL_SIZE,
+        "VAL_RATIO": VAL_RATIO,
+        "NUM_RUNS": NUM_RUNS,
+        "SAMPLE_SIZE": SAMPLE_SIZE,
+        "detector_nli": DETECTOR_NLI_MODEL,
+        "gold_nli_candidates": GOLD_NLI_CANDIDATES,
+        "judge_model": JUDGE_MODEL,
+        "gen_model": GEN_MODEL,
+        "weights": {"W_JUDGE": W_JUDGE, "W_FACT": W_FACT, "W_SC": W_SC, "W_LEX": W_LEX},
+        "fact_contra_alpha": FACT_CONTRA_ALPHA,
+        "nq_extraction": {
+            "MIN_REF_WORDS": MIN_REF_WORDS,
+            "MAX_REF_WORDS": MAX_REF_WORDS,
+            "ALLOW_LONG_ANSWER_FALLBACK": ALLOW_LONG_ANSWER_FALLBACK,
+        },
+        "mitigation": {
+            "MITI_K": MITI_K,
+            "COUNT_EMPTY_AS_ABSTAIN": COUNT_EMPTY_AS_ABSTAIN,
+            "ABSTAIN_IF_STILL_RISKY": ABSTAIN_IF_STILL_RISKY,
+            "PROTECT_BASE_MARGIN": PROTECT_BASE_MARGIN,
+            "MIN_IMPROVEMENT": MIN_IMPROVEMENT,
+            "ABSTAIN_PENALTY": ABSTAIN_PENALTY,
+            "ABSTAIN_ADVANTAGE": ABSTAIN_ADVANTAGE,
+            "KEEP_BASE_HIGH_CONF": KEEP_BASE_HIGH_CONF,
+            "t_low_ok": t_low_ok,
+            "t_high_ok": t_high_ok,
+            "abstain_threshold": abstain_threshold,
+            "tune_t_high": TUNE_T_HIGH,
+            "val_tune_max_q": VAL_TUNE_MAX_Q,
+            "tune_obj_weights": {
+                "w_abstain": TUNE_W_ABSTAIN,
+                "w_regress": TUNE_W_REGRESS
+            },
+        },
+        "files": {
+            "ANSWER_CACHE_FILE": ANSWER_CACHE_FILE,
+            "OUT_JSON_FILE": OUT_JSON_FILE,
+            "OUT_CSV_FILE": OUT_CSV_FILE,
+            "ERROR_CASES_FILE": ERROR_CASES_FILE,
+            "MITI_CASES_FILE": MITI_CASES_FILE,
+        }
+    },
+    "thresholds": mode_thresholds,
+    "modes": {},
+    "mitigation": {}
+}
+
+full_f1s = [r["f1"] for r in summary["full"]]
+full_mean = safe_mean(full_f1s)
+
+for m in modes:
+    f1s = [r["f1"] for r in summary[m]]
+    qstds = [r["question_score_std"] for r in summary[m]]
+    astds = [r["answer_score_std"] for r in summary[m]]
+
+    summary_json["modes"][m] = {
+        "f1": {"values": f1s, "mean": safe_mean(f1s), "std": safe_std(f1s)},
+        "question_score_std": {"values": qstds, "mean": safe_mean(qstds), "std": safe_std(qstds)},
+        "answer_score_std": {"values": astds, "mean": safe_mean(astds), "std": safe_std(astds)},
+    }
+
+    delta_mean = full_mean - safe_mean(f1s) if m != "full" else 0.0
+
+    rows.append({
+        "mode": m,
+        "thr_star": float(mode_thresholds[m]),
+        "f1_mean": safe_mean(f1s),
+        "f1_std": safe_std(f1s),
+        "question_score_std_mean": safe_mean(qstds),
+        "question_score_std_std": safe_std(qstds),
+        "answer_score_std_mean": safe_mean(astds),
+        "answer_score_std_std": safe_std(astds),
+        "delta_f1_vs_full_mean": float(delta_mean)
+    })
+
+    print(
+        f"{m:12s} | "
+        f"{safe_mean(f1s):8.4f} {safe_std(f1s):8.4f} | "
+        f"Q-std={safe_mean(qstds):.4f} | "
+        f"A-std={safe_mean(astds):.4f} | "
+        f"{mode_thresholds[m]:6.2f}"
+    )
+
+print("\n=== MITIGATION SUMMARY (Question-level final answer) ===")
+print(
+    f"{'policy':16s} | "
+    f"{'base_hallu':>10s} {'final_hallu':>12s} {'Δhallu':>10s} | "
+    f"{'filtered_halluc':>15s} | {'valid_ans':>10s} | "
+    f"{'Δok':>10s} | "
+    f"{'base_EM':>8s} {'final_EM':>8s} | "
+    f"{'impr/reg':>14s}"
+)
+print("-" * 140)
+
+for p in miti_policies:
+    base_halluc_rates = [x["base_halluc_rate"] for x in miti_summary[p]]
+    ok_rates = [x["final_gold_ok_rate"] for x in miti_summary[p]]
+    halluc_rates = [x["final_halluc_rate"] for x in miti_summary[p]]
+    deltas = [x["delta_ok_score_mean"] for x in miti_summary[p]]
+   
+    base_em_rates = [x["base_em_rate"] for x in miti_summary[p]]
+    final_em_rates = [x["final_em_rate"] for x in miti_summary[p]]
+
+    filtered_halluc_rates = [x["filtered_halluc_rate"] for x in miti_summary[p]]
+    valid_rates = [x["valid_answer_rate"] for x in miti_summary[p]]
+
+    impr = [x["paired"]["improve_cnt"] for x in miti_summary[p]]
+    reg = [x["paired"]["regress_cnt"] for x in miti_summary[p]]
+
+    impr_rates = [x["improve_rate"] for x in miti_summary[p]]
+    reg_rates = [x["regress_rate"] for x in miti_summary[p]]
+
+    summary_json["mitigation"][p] = {
+        "runs": miti_summary[p],
+
+        "base_gold_ok_rate_mean": safe_mean([x["base_gold_ok_rate"] for x in miti_summary[p]]),
+        "base_gold_ok_rate_std": safe_std([x["base_gold_ok_rate"] for x in miti_summary[p]]),
+        "base_halluc_rate_mean": safe_mean([x["base_halluc_rate"] for x in miti_summary[p]]),
+        "base_halluc_rate_std": safe_std([x["base_halluc_rate"] for x in miti_summary[p]]),
+
+        "base_em_rate_mean": safe_mean(base_em_rates),
+        "base_em_rate_std": safe_std(base_em_rates),
+        "final_em_rate_mean": safe_mean(final_em_rates),
+        "final_em_rate_std": safe_std(final_em_rates),
+
+        "final_gold_ok_rate_mean": safe_mean(ok_rates),
+        "final_gold_ok_rate_std": safe_std(ok_rates),
+        "final_halluc_rate_mean": safe_mean(halluc_rates),
+        "final_halluc_rate_std": safe_std(halluc_rates),
+
+        "filtered_gold_ok_rate_mean": safe_mean([x["filtered_gold_ok_rate"] for x in miti_summary[p]]),
+        "filtered_gold_ok_rate_std": safe_std([x["filtered_gold_ok_rate"] for x in miti_summary[p]]),
+        "filtered_halluc_rate_mean": safe_mean(filtered_halluc_rates),
+        "filtered_halluc_rate_std": safe_std(filtered_halluc_rates),
+
+        "valid_answer_rate_mean": safe_mean(valid_rates),
+        "valid_answer_rate_std": safe_std(valid_rates),
+
+        "delta_ok_score_mean": safe_mean(deltas),
+        "delta_ok_score_std": safe_std(deltas),
+
+        "paired_stats": {
+            "improve_mean": safe_mean(impr),
+            "improve_std": safe_std(impr),
+            "regress_mean": safe_mean(reg),
+            "regress_std": safe_std(reg),
+        }
+    }
+
+    print(
+        f"{p:16s} | "
+        f"{safe_mean(base_halluc_rates):10.4f} "
+        f"{safe_mean(halluc_rates):12.4f} "
+        f"{(safe_mean(base_halluc_rates) - safe_mean(halluc_rates)):10.4f} | "
+        f"{safe_mean(filtered_halluc_rates):15.4f} | "
+        f"{safe_mean(valid_rates):10.4f} | "
+        f"{safe_mean(deltas):10.4f} | "
+        f"{safe_mean(base_em_rates):8.4f} {safe_mean(final_em_rates):8.4f} | "
+        f"{safe_mean(impr):6.2f}±{safe_std(impr):.2f}/"
+        f"{safe_mean(reg):6.2f}±{safe_std(reg):.2f} | "
+        f"{safe_mean(impr_rates):6.4f}/"
+        f"{safe_mean(reg_rates):6.4f}"
+    )
+
+print("\n=== Paired ΔF1 per run (full - ablation) ===")
+for m in modes:
+    if m == "full":
+        continue
+    diffs = []
+    for r in range(NUM_RUNS):
+        diffs.append(summary["full"][r]["f1"] - summary[m][r]["f1"])
+    print(
+        f"{m:12s}: ΔF1 mean={safe_mean(diffs):.4f} "
+        f"std={safe_std(diffs):.4f}  (positive => full better)"
+    )
+
+with open(OUT_JSON_FILE, "w", encoding="utf-8") as f:
+    json.dump(summary_json, f, indent=2, ensure_ascii=False)
+
+ensure_csv_header(OUT_CSV_FILE, list(rows[0].keys()) if rows else ["mode"])
+with open(OUT_CSV_FILE, "w", newline="", encoding="utf-8") as f:
+    if rows:
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+    else:
+        f.write("mode\n")
+
+print(f"\nSaved: {OUT_JSON_FILE}, {OUT_CSV_FILE}")
+print(f"Mitigation cases saved: {MITI_CASES_FILE} (up to {MAX_CASES_PER_RUN} rows per policy per run)")
+print(f"Optional detection error cases: {ERROR_CASES_FILE} (up to {MAX_ERROR_LOGS_PER_MODE} mismatches per mode per run)")

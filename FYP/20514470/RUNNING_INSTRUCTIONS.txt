@@ -1,0 +1,96 @@
+========================================
+LLM Hallucination Detection & Mitigation
+RUNNING GUIDE (FEVER / TQA / NQ)
+========================================
+
+----------------------------------------
+1. REQUIREMENTS
+----------------------------------------
+
+Python:
+- Python 3.10 or higher
+
+----------------------------------------
+2. SETUP ENVIRONMENT
+----------------------------------------
+
+Step 1: Install dependencies
+
+pip install --upgrade pip
+pip install numpy torch transformers datasets tqdm scikit-learn selfcheckgpt ollama
+
+----------------------------------------
+3. INSTALL OLLAMA
+----------------------------------------
+
+Step 1: Download
+https://ollama.com/download
+
+----------------------------------------
+
+Step 2: Start Ollama
+
+ollama serve
+
+----------------------------------------
+
+Step 3: Download models
+
+ollama pull llama2:7b
+ollama pull qwen2.5:7b-instruct
+
+----------------------------------------
+4. DATASET
+----------------------------------------
+
+You need:
+
+- fever_subset.json (FEVER)
+- nq_subset.json (Natural Questions)
+- truthfulqa_full.json (TruthfulQA)
+
+Place all files in the project root directory.
+
+----------------------------------------
+DATA PROCESSING
+----------------------------------------
+
+The datasets are handled as follows:
+
+- FEVER:
+  A stratified subset is automatically constructed by the code.
+  The script balances SUPPORTED, REFUTED, and NOT ENOUGH INFO labels
+  to reduce distribution bias.
+
+- TruthfulQA (TQA):
+  A subset of the original TruthfulQA dataset is used.
+  The subset is sampled for efficiency and consistency with the experimental setup.
+
+- Natural Questions (NQ):
+  A preprocessed subset is used for efficiency.
+
+----------------------------------------
+5. RUN
+----------------------------------------
+
+Run each dataset script:
+
+FEVER:
+python fever.py
+
+TruthfulQA:
+python truthfulQA.py
+
+Natural Questions:
+python natural_questions.py
+
+----------------------------------------
+IMPORTANT
+----------------------------------------
+
+- Ollama must be running before executing any script
+- First run may be slow due to model downloads
+- Additional delay may occur due to:
+  • HuggingFace models (NLI: roberta / deberta)
+  • SelfCheckGPT initialization
+  • LLM generation (no cache on first run)

@@ -1,0 +1,81 @@
+> python truthfulQA.py
+Device: cuda
+
+Loading TruthfulQA from local JSON...
+Dataset size: 817
+Final subset size: 500
+
+Loading DETECTOR NLI model: roberta-large-mnli
+
+Loading GOLD NLI model with fallback...
+  trying: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+  -> loaded GOLD: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+
+Loading SelfCheckGPT-NLI...
+SelfCheck-NLI initialized to device cpu
+
+Building question pool...
+Pool size: 500 | val questions: 100 | test questions: 400
+
+Precomputing VAL + TEST packs (slow due to Ollama)...
+VAL packs: 100%|█████████████████████████████████████████████████████████████████████| 100/100 [32:36<00:00, 19.57s/it]
+TEST packs: 100%|██████████████████████████████████████████████████████████████████| 400/400 [1:37:38<00:00, 14.65s/it]
+Calibration samples: 300
+
+[Calibration-full] trained on 300 samples
+
+[Calibration-no_judge] trained on 300 samples
+
+[Calibration-no_mnli] trained on 300 samples
+
+[Calibration-no_selfcheck] trained on 300 samples
+
+[Calibration-judge_only] trained on 300 samples
+
+Tuning threshold on VAL for each mode...
+  mode=full         | best_thr=0.61 | val_F1=0.9228
+  mode=no_judge     | best_thr=0.59 | val_F1=0.9228
+  mode=no_mnli      | best_thr=0.63 | val_F1=0.9228
+  mode=no_selfcheck | best_thr=0.60 | val_F1=0.9228
+  mode=judge_only   | best_thr=0.63 | val_F1=0.9228
+
+Mitigation thresholds (default): t_low_ok=0.454, t_high_ok=0.480, abstain_thr=0.404 | K=10 | MID_KIND=strict
+
+Tuning t_high on VAL (n=100 questions) to reduce hallucination...
+  tuned t_high_ok=0.454 | obj=0.8600 | halluc=0.8600 abstain=0.0000 regress=0.0000
+
+Mitigation thresholds (FINAL): t_low_ok=0.454, t_high_ok=0.454, abstain_thr=0.404 | K=10 | MID_KIND=strict
+
+Sweeping threshold curve...
+Threshold curve saved to CSV: truthfulqa_threshold_curve.csv
+
+Running paired Monte-Carlo on TEST...
+
+=== FINAL SUMMARY (Detection) ===
+mode         |  F1_mean   F1_std |      Q-std |      A-std |   thr*
+----------------------------------------------------------------------------------------------------
+full         |   0.9153   0.0040 | Q-std=0.0233 | A-std=0.1093 |   0.61
+no_judge     |   0.9196   0.0037 | Q-std=0.0223 | A-std=0.1213 |   0.59
+no_mnli      |   0.9196   0.0037 | Q-std=0.0190 | A-std=0.0623 |   0.63
+no_selfcheck |   0.9196   0.0037 | Q-std=0.0195 | A-std=0.1097 |   0.60
+judge_only   |   0.9196   0.0037 | Q-std=0.0188 | A-std=0.0632 |   0.63
+
+=== Paired ΔF1 per run (full - ablation) ===
+no_judge    : ΔF1 mean=-0.0042 std=0.0017  (positive => full better)
+no_mnli     : ΔF1 mean=-0.0042 std=0.0017  (positive => full better)
+no_selfcheck: ΔF1 mean=-0.0042 std=0.0017  (positive => full better)
+judge_only  : ΔF1 mean=-0.0042 std=0.0017  (positive => full better)
+
+=== MITIGATION SUMMARY (Question-level final answer) ===
+policy           | base_hallu  final_hallu     Δhallu | base_true_hallu   true_hallu |   cond_hallu |  filtered_hallu |  valid_ans | base_abs  final_abs |  Δok_score |  impr/reg/abst |  p_hall(base->final)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+base             |     0.8567       0.8567     0.0000 |     0.8500       0.8500 |       0.8557 |          0.8557 |     0.9933 |   0.0067     0.0067 |    -0.0002 |   0.0/  0.0/  1.3 | 0.5952->0.5955
+rewrite_once     |     0.8567       0.8517     0.0050 |     0.8500       0.8150 |       0.8460 |          0.8460 |     0.9633 |   0.0067     0.0367 |    -0.0081 |   2.7/  1.7/  7.0 | 0.5952->0.5902
+rewrite_K        |     0.8567       0.8767    -0.0200 |     0.8500       0.8717 |       0.8760 |          0.8760 |     0.9950 |   0.0067     0.0050 |    -0.0572 |   8.0/ 12.0/  1.0 | 0.5952->0.6323
+detector_conditioned_truthful |     0.8567       0.8500     0.0067 |     0.8500       0.8450 |       0.8492 |          0.8492 |     0.9950 |   0.0067     0.0050 |     0.0008 |   1.3/  0.0/  1.0 | 0.5952->0.5949
+detector_conditioned_utility |     0.8567       0.8500     0.0067 |     0.8500       0.8450 |       0.8492 |          0.8492 |     0.9950 |   0.0067     0.0050 |     0.0004 |   1.3/  0.0/  1.0 | 0.5952->0.5954
+
+Saved: truthfulqa_paper_overall_summary.json, truthfulqa_paper_overall_summary.csv
+Mitigation cases saved: truthfulqa_mitigation_cases.csv (up to 500 rows per policy per run)
+Optional detection error cases: truthfulqa_paper_error_cases.csv (up to 200 mismatches per mode per run)
+>

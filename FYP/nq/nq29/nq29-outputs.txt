@@ -1,0 +1,91 @@
+(base) PS C:\Users\zhaiyy\Desktop\nq> python nq29.py
+Device: cpu
+
+Loading Natural Questions (local subset)...
+Dataset loaded: 2000
+Filtering NQ for valid refs: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 2000/2000 [00:28<00:00, 71.37it/s]
+Valid items with usable references: 1077
+
+Example extracted references:
+
+Q: where is nuclear energy used most in the world
+REF: United States
+
+Q: who is the supreme justice of the supreme court
+REF: John Roberts
+
+Q: who hosted they think it's all over
+REF: comedian Nick Hancock
+
+Q: who stepped out of the dithyrambic chorus to become the first actor
+REF: Thespis
+
+Q: when did the song push it come out
+REF: 1987
+
+Reference length stats:
+  mean words: 4.21
+  min words : 1
+  max words : 20
+Final subset size: 800
+
+Loading DETECTOR NLI model: roberta-large-mnli
+
+Loading GOLD NLI model with fallback...
+  trying: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+  -> loaded GOLD: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+
+Loading SelfCheckGPT-NLI...
+SelfCheck-NLI initialized to device cpu
+
+Building question pool...
+Pool size: 800 | val questions: 160 | test questions: 640
+
+Precomputing VAL + TEST packs (slow due to Ollama)...
+VAL packs: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 160/160 [24:40<00:00,  9.25s/it]
+TEST packs: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 640/640 [1:33:42<00:00,  8.79s/it]
+
+Sanity check on VAL labels...
+  total VAL answers: 795
+  gold_ok count    : 141
+  gold_halluc count: 654
+
+Tuning threshold on VAL for each mode...
+  mode=full         | best_thr=0.77 | val_F1=0.9811
+  mode=no_judge     | best_thr=0.79 | val_F1=0.9774
+  mode=no_mnli      | best_thr=0.73 | val_F1=0.9962
+  mode=no_selfcheck | best_thr=0.75 | val_F1=0.9811
+  mode=judge_only   | best_thr=0.79 | val_F1=0.9767
+
+Mitigation thresholds (default): t_low_ok=0.770, t_high_ok=0.800, abstain_thr=0.720 | K=10
+
+Mitigation thresholds (FINAL): t_low_ok=0.770, t_high_ok=0.800, abstain_thr=0.720 | K=10
+
+Running paired Monte-Carlo on TEST...
+
+=== FINAL SUMMARY (Detection) ===
+mode         |  F1_mean   F1_std |      Q-std |      A-std |   thr*
+----------------------------------------------------------------------------------------------------
+full         |   0.9727   0.0075 | Q-std=0.0038 | A-std=0.3251 |   0.77
+no_judge     |   0.9762   0.0026 | Q-std=0.0039 | A-std=0.3343 |   0.79
+no_mnli      |   0.9882   0.0026 | Q-std=0.0037 | A-std=0.3033 |   0.73
+no_selfcheck |   0.9727   0.0075 | Q-std=0.0038 | A-std=0.3208 |   0.75
+judge_only   |   0.9484   0.0052 | Q-std=0.0032 | A-std=0.3383 |   0.79
+
+=== MITIGATION SUMMARY (Question-level final answer) ===
+policy           | base_hallu  final_hallu     Δhallu | filtered_halluc |  valid_ans |        Δok |  base_EM final_EM |       impr/reg
+--------------------------------------------------------------------------------------------------------------------------------------------
+base             |     0.8567       0.8567     0.0000 |          0.8567 |     1.0000 |     0.0014 |   0.0967   0.0967 |    0/  0/
+extract_once     |     0.8567       0.8567     0.0000 |          0.8567 |     1.0000 |     0.0014 |   0.0967   0.0967 |    0/  0/
+extract_K        |     0.8567       0.8567     0.0000 |          0.8567 |     1.0000 |     0.0014 |   0.0967   0.0967 |    0/  0/
+detector_conditioned_extract |     0.8567       0.8050     0.0517 |          0.8050 |     1.0000 |     0.0634 |   0.0967   0.1267 |   10/  0/
+
+=== Paired ΔF1 per run (full - ablation) ===
+no_judge    : ΔF1 mean=-0.0034 std=0.0048  (positive => full better)
+no_mnli     : ΔF1 mean=-0.0155 std=0.0091  (positive => full better)
+no_selfcheck: ΔF1 mean=0.0000 std=0.0000  (positive => full better)
+judge_only  : ΔF1 mean=0.0243 std=0.0025  (positive => full better)
+
+Saved: nq_paper_overall_summary_final_all29.json, nq_paper_overall_summary_final_all29.csv
+Mitigation cases saved: nq_mitigation_cases_final_all29.csv (up to 500 rows per policy per run)
+Optional detection error cases: nq_paper_error_cases_final_all29.csv (up to 200 mismatches per mode per run)
