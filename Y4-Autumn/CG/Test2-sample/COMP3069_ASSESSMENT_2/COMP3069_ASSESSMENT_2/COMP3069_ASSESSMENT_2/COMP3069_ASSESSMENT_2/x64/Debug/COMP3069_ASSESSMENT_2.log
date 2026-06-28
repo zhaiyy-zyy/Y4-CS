@@ -1,0 +1,19 @@
+﻿  COMP3069_ASSESSMENT_2.cpp
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\DoNotModify.h(63,64): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+  (compiling source file 'COMP3069_ASSESSMENT_2.cpp')
+  
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\DoNotModify.h(63,55): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+  (compiling source file 'COMP3069_ASSESSMENT_2.cpp')
+  
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\DoNotModify.h(63,46): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+  (compiling source file 'COMP3069_ASSESSMENT_2.cpp')
+  
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(35,37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(36,37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(37,37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(128,55): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(128,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(141,65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(142,65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2.cpp(143,65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  COMP3069_ASSESSMENT_2.vcxproj -> C:\Mac\Home\Desktop\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\COMP3069_ASSESSMENT_2\x64\Debug\COMP3069_ASSESSMENT_2.exe
